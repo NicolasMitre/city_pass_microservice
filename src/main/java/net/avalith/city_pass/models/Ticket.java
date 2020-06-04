@@ -1,15 +1,12 @@
 package net.avalith.city_pass.models;
 
-import lombok.Builder;
+import com.sun.istack.NotNull;
 import lombok.Data;
-
-import javax.persistence.Entity;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
-@Entity
+@SuperBuilder
 public class Ticket {
-    private Integer id;
+    @NotNull
     private String code;
-    private Product product;
 }

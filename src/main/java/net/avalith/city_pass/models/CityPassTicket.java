@@ -1,15 +1,32 @@
 package net.avalith.city_pass.models;
 
-import lombok.Builder;
+import com.sun.istack.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 
 @Data
-@Builder
+@SuperBuilder
 @Entity
+@EqualsAndHashCode(callSuper=true)
 public class CityPassTicket extends Ticket{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
+    @ManyToOne
+    @JoinColumn(name = "city_pass_id")
     private CityPass cityPass;
+    @NotNull
+    private String code;
 }
