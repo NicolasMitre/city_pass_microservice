@@ -1,4 +1,4 @@
-package net.avalith.city_pass;
+package net.avalith.city_pass.repositories;
 
 import net.avalith.city_pass.models.City;
 import org.springframework.data.jpa.repository.JpaRepository;
