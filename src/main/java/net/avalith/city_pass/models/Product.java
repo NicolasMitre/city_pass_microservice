@@ -17,17 +17,18 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
-    @NotNull
-    private String name;
+
     @NotNull
     private Double price;
+
     @NotNull
     private Integer duration;
+
     @NotNull
     private Double discount;
+
     @NotNull
     private String description;
-
 
     @ManyToOne
     @JoinColumn(name = "purchase_id")

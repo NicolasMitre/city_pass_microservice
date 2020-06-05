@@ -20,13 +20,20 @@ public class Excursion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cities_id")
     private City city;
+
+    @NotNull
+    private String name;
+
     @NotNull
     private Integer duration;
+
     @NotNull
     private Date schedule;
+
     @NotNull
     private Integer capacity;
 

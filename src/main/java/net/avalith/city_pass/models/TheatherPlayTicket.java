@@ -25,12 +25,15 @@ public class TheatherPlayTicket extends Ticket{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
+
     @ManyToOne
     @JoinColumn(name = "theather_play_id")
     private TheatherPlay theatherPlay;
+
     @NotNull
     private String code;
 }

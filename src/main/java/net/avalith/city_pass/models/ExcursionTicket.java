@@ -24,12 +24,15 @@ public class ExcursionTicket extends Ticket{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
     @ManyToOne
     @JoinColumn(name = "excursion_id")
     private Excursion excursion;
+
     @NotNull
     private String code;
 }

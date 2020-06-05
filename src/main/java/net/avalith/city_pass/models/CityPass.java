@@ -21,6 +21,7 @@ public class CityPass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "city")
     private List<Excursion> excursion;
 }

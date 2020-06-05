@@ -20,9 +20,14 @@ public class TheatherPlay {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
     private final Integer CAPACITY = 100;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cities_id")
     private City city;
+
+    @NotNull
+    private String name;
+
     @NotNull
     private Integer duration;
 }

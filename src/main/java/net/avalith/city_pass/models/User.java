@@ -19,10 +19,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
+
     @NotNull
     private String username;
+
     @NotNull
     private String name;
+
     @ManyToMany
     @JoinTable(
             name = "users_roles",

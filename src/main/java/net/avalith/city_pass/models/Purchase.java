@@ -22,10 +22,13 @@ public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
+
     @NotNull
     private Date purchaseDate;
+
     @NotNull
     private Double totalPrice;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase")
     private List<Product> list;
 
