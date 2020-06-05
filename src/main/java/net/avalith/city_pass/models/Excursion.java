@@ -26,7 +26,11 @@ public class Excursion {
     @NotNull
     private Integer duration;
     @NotNull
-    private Date schendule;
+    private Date schedule;
     @NotNull
     private Integer capacity;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cityPass_id")
+    private CityPass cityPass;
 }

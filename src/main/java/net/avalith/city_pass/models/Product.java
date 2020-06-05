@@ -27,8 +27,8 @@ public class Product {
     private Double discount;
     @NotNull
     private String description;
-    @NotNull
-    private Ticket ticket;
+
+
     @ManyToOne
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;

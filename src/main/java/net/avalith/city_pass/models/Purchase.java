@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import java.util.Date;
@@ -26,4 +28,8 @@ public class Purchase {
     private Double totalPrice;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase")
     private List<Product> list;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
