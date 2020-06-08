@@ -19,6 +19,7 @@ public class TheatherPlay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
+
     private final Integer CAPACITY = 100;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -29,5 +30,11 @@ public class TheatherPlay {
     private String name;
 
     @NotNull
-    private Integer duration;
+    private Integer durationInMinutes;
+
+    @NotNull
+    private Double price;
+
+    @NotNull
+    private String description;
 }

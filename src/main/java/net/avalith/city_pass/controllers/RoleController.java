@@ -6,9 +6,11 @@ import net.avalith.city_pass.dto.CityDto;
 import net.avalith.city_pass.dto.RoleDto;
 import net.avalith.city_pass.models.Role;
 import net.avalith.city_pass.services.RoleService;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,11 @@ public class RoleController {
     public ResponseEntity<List<Role>> getAllRoles(){
 
         return ResponseEntity.ok(roleService.getAllRole());
+    }
+
+    @GetMapping("/{idRole}")
+    public ResponseEntity<RoleDto> getRoleById(@PathVariable(name = "idRole") Integer idRole){
+        return ResponseEntity.ok(roleService.getById(idRole));
     }
 
     @PostMapping("")

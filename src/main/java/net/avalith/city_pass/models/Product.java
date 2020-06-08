@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Data
 @Builder
@@ -21,17 +22,10 @@ public class Product {
     @NotNull
     private Double price;
 
-    @NotNull
-    private Integer duration;
-
-    @NotNull
-    private Double discount;
-
-    @NotNull
-    private String description;
-
     @ManyToOne
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;
 
+    @Transient
+    private Ticket ticket;
 }
