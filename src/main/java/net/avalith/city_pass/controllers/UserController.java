@@ -34,9 +34,8 @@ public class UserController {
     }
     
     @PostMapping("")
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user){
-        Object userDto;
-        URI uri = userService.createUser(user);
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDto userDto){
+        URI uri = userService.createUser(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(uri);
     }
 }
