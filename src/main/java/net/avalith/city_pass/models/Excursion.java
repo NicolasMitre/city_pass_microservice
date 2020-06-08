@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.util.Date;
 
 @Data
 @Builder
@@ -29,15 +28,14 @@ public class Excursion {
     private String name;
 
     @NotNull
-    private Integer duration;
-
-    @NotNull
-    private Date schedule;
+    private Integer durationInMinutes;
 
     @NotNull
     private Integer capacity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cityPass_id")
-    private CityPass cityPass;
+    @NotNull
+    private Double price;
+
+    @NotNull
+    private String description;
 }

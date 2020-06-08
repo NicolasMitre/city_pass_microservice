@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,5 +36,6 @@ public class TheatherPlayTicket extends Ticket{
     private TheatherPlay theatherPlay;
 
     @NotNull
+    @Column(unique = true)
     private String code;
 }

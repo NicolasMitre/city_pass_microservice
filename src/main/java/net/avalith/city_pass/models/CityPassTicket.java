@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +27,10 @@ public class CityPassTicket extends Ticket{
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
 
+    @NotNull
+    @Column(unique = true)
+    private String code;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
@@ -34,6 +39,4 @@ public class CityPassTicket extends Ticket{
     @JoinColumn(name = "city_pass_id")
     private CityPass cityPass;
 
-    @NotNull
-    private String code;
 }
