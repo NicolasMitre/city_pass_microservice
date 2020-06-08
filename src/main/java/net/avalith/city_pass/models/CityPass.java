@@ -28,12 +28,6 @@ public class CityPass {
     private String name;
 
     @NotNull
-    private Double price;
-
-    @NotNull
     private String description;
-
-    @Transient
-    private Integer days;
 }
 
