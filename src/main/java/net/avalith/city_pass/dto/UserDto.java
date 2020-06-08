@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.avalith.city_pass.models.Role;
 import net.avalith.city_pass.models.User;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Data
 @Builder
@@ -20,7 +22,10 @@ public class UserDto {
     @NotBlank(message = "Invalid name")
     private String name;
 
+    @NotBlank(message = "Invalid roles")
+    private Set<Role> roles;
+
     public UserDto fromUser(User user) {
-        return new UserDto(user.getName(), user.getUsername());
+        return new UserDto(user.getName(), user.getUsername(),user.getRoles());
     }
 }
