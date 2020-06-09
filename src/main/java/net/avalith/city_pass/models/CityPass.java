@@ -3,6 +3,8 @@ package net.avalith.city_pass.models;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Data;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,7 +23,8 @@ import java.util.List;
 @Table(name = "city_pass")
 public class CityPass {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_city_pass")
     private Integer id;
 
     @NotNull
@@ -29,5 +32,14 @@ public class CityPass {
 
     @NotNull
     private String description;
+
+    @NotNull
+    private Double price;
+
+    @NotNull
+    private Integer days;
+
+    @NotNull
+    private Boolean isActive;
 }
 
