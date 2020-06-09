@@ -2,11 +2,9 @@ package net.avalith.city_pass.controllers;
 
 
 import lombok.RequiredArgsConstructor;
-import net.avalith.city_pass.dto.CityDto;
 import net.avalith.city_pass.dto.RoleDto;
 import net.avalith.city_pass.models.Role;
 import net.avalith.city_pass.services.RoleService;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
