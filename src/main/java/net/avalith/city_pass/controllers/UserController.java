@@ -1,6 +1,5 @@
 package net.avalith.city_pass.controllers;
 
-import com.sun.org.apache.xerces.internal.util.HTTPInputSource;
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.UserDto;
 import net.avalith.city_pass.models.User;
@@ -27,13 +26,17 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    public List<UserDto> getAllUser(){
-        return this.userService.getAll();
+    public ResponseEntity<?> getAllUser(){
+        List<UserDto> listDto = this.userService.getAll();
+        return (listDto.size() > 0) ? ResponseEntity.ok(listDto) :
+                ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
     }
 
     @GetMapping("/{idUser}")
-    public UserDto getUserById(@PathVariable(name = "idUser") Integer id){
-        return this.userService.getById(id);
+    public ResponseEntity<?> getUserById(@PathVariable(name = "idUser") Integer id){
+        UserDto userDto = this.userService.getById(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userDto);
     }
     
     @PostMapping("")
