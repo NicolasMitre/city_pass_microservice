@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Table(name = "cities")
 public class City {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Integer id;
 
