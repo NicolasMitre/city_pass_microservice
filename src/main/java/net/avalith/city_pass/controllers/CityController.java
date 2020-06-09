@@ -6,9 +6,11 @@ import net.avalith.city_pass.models.City;
 import net.avalith.city_pass.services.CityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,13 +21,13 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/city")
+@RequestMapping("/cities")
 public class CityController {
     private final CityService cityService;
 
     @GetMapping("")
     public ResponseEntity<List<City>> getAllCities(){
-        List<City> list = cityService.getAll();
+        List<City> list = cityService.getAllActiveCities();
         return (list.size() >0 )? ResponseEntity.ok(list) : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -40,5 +42,15 @@ public class CityController {
         return ResponseEntity.status(HttpStatus.CREATED).body(uri);
     }
 
+    @PutMapping("/{idCity}")
+    public ResponseEntity<?> updateCity(@PathVariable(name = "idCity")Integer idCity, @Valid @RequestBody CityDto cityDto){
+        return ResponseEntity.ok(cityService.updateCity(idCity,cityDto));
+    }
+
+    @DeleteMapping("/{idCity}")
+    public ResponseEntity<?> deleteCity(@PathVariable(name = "idCity")Integer idCity){
+        cityService.deleteCity(idCity);
+        return ResponseEntity.ok().build();
+    }
 
 }

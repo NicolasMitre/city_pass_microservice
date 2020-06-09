@@ -1,5 +1,6 @@
 package net.avalith.city_pass.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,8 +22,12 @@ import javax.persistence.Table;
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
+    @JsonIgnore
     private Integer id;
 
     @NotNull
     private String name;
+
+    @NotNull
+    private Boolean isActive;
 }

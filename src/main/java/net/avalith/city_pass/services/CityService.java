@@ -17,12 +17,15 @@ public class CityService {
 
     private final CityRepository cityRepository;
 
-    public List<City> getAll(){
-        return cityRepository.findAll();
+    public List<City> getAllActiveCities(){
+        return cityRepository.findAllByStatus(Boolean.TRUE);
     }
 
     public URI createCity(CityDto cityDto) {
-        City city = City.builder().name(cityDto.getName()).build();
+        City city = City.builder()
+                .name(cityDto.getName())
+                .isActive(true)
+                .build();
         city = cityRepository.save(city);
         return getLocation(city);
     }
@@ -36,11 +39,33 @@ public class CityService {
     }
 
     public CityDto getById(Integer idCity){
-        City city = cityRepository.findById(idCity)
+        City city = cityRepository.findByIdAndIsActive(idCity,Boolean.TRUE)
                 .orElseThrow(CityNotFoundException::new);
 
         CityDto cityDto = new CityDto();
         cityDto.fromCity(city);
         return cityDto;
+    }
+
+    public City updateCity(Integer idCity, CityDto cityDto) {
+        City city = cityRepository.findByIdAndIsActive(idCity,Boolean.TRUE)
+                .orElseThrow(CityNotFoundException::new);
+
+        update(city,cityDto);
+        city = cityRepository.save(city);
+        return City.builder()
+                .name(city.getName())
+                .isActive(city.getIsActive())
+                .build();
+    }
+
+    private void update(City city, CityDto cityDto){
+        city.setName(cityDto.getName());
+    }
+
+    public void deleteCity(Integer idCity) {
+        City city = cityRepository.findByIdAndIsActive(idCity, true)
+                .orElseThrow(CityNotFoundException::new);
+        cityRepository.logicalDelete(city.getId());
     }
 }
