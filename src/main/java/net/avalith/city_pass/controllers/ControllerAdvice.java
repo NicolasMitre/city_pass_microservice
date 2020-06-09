@@ -30,8 +30,8 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(CityNotFoundException.class)
+    @ExceptionHandler(CityPassNotFoundException.class)
     public ErrorResponseDto handleLoginException(CityPassNotFoundException exc) {
-        return  new ErrorResponseDto(1, CITY_PASS_NOT_FOUND_MESSAGE);
+        return new ErrorResponseDto(1, CITY_PASS_NOT_FOUND_MESSAGE);
     }
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.city_pass.models.CityPass;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 @Data
 @Builder
@@ -18,10 +19,10 @@ public class CityPassDto {
     @NotBlank
     private String description;
 
-    @NotBlank
+    @Min(value = 1)
     private Integer days;
 
-    @NotBlank
+    @Min(value = 0)
     private Double price;
 
     public void fromCityPass(CityPass cityPass){

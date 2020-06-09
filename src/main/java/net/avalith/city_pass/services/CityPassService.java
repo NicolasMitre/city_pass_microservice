@@ -23,7 +23,12 @@ public class CityPassService {
 
     public URI createCityPass(CityPassDto cityPassDto) {
 
-        CityPass cityPass = CityPass.builder().name(cityPassDto.getName()).isActive(true).build();
+        CityPass cityPass = CityPass.builder()
+                .name(cityPassDto.getName())
+                .description(cityPassDto.getDescription())
+                .days(cityPassDto.getDays())
+                .price(cityPassDto.getPrice())
+                .isActive(true).build();
         cityPass = cityPassRepository.save(cityPass);
         return getLocation(cityPass);
     }
