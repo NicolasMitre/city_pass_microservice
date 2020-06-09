@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +24,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
+    @Column(name = "id_user")
     private Integer id;
 
     @NotNull
@@ -30,6 +32,9 @@ public class User {
 
     @NotNull
     private String name;
+
+    @NotNull
+    private Boolean isActive;
 
     @ManyToMany
     @JoinTable(
