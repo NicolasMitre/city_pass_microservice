@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -44,6 +42,7 @@ public class UserController {
         User user = userService.createUser(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
+
     @PutMapping("/{idUser}")
     public ResponseEntity<UserDto> updateUser(@Valid @PathVariable(name = "idUser") Integer id,  @RequestBody UserDto userDto){
         UserDto user= userService.updateUser(id,userDto);
