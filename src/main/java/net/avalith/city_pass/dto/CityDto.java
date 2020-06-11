@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CityDto {
-    @NotBlank(message = "Invalid name")
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
     public static CityDto fromCity(City city){
