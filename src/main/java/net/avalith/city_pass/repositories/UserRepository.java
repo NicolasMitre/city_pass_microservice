@@ -14,10 +14,9 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Transactional
     @Modifying
     @Query(value = "UPDATE user SET is_active = false where id_user = ?1", nativeQuery = true)
-    void deleteUser(Integer id);
+    void deleteById(Integer id);
 
-    @Query(value = "SELECT * from user where is_active =:status", nativeQuery = true)
-    List<User> findAllStatus(@Param(value = "status") Boolean b);
+    List<User> findAllByisActive(Boolean status);
 
     Optional<User> findByIdAndIsActive(Integer id, Boolean b);
 }
