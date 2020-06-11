@@ -1,5 +1,6 @@
 package net.avalith.city_pass.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +18,8 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Excursion {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -31,11 +33,11 @@ public class Excursion {
     private Integer durationInMinutes;
 
     @NotNull
-    private Integer capacity;
-
-    @NotNull
     private Double price;
 
     @NotNull
     private String description;
+
+    @NotNull
+    private Boolean isActive;
 }
