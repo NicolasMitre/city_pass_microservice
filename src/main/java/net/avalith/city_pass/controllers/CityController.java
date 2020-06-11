@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -32,25 +31,24 @@ public class CityController {
     }
 
     @GetMapping("/{idCity}")
-    public ResponseEntity<CityDto> getCityById(@PathVariable(name = "idCity") Integer idCity){
+    public ResponseEntity<City> getCityById(@PathVariable(name = "idCity") Integer idCity){
         return ResponseEntity.ok(cityService.getById(idCity));
     }
 
     @PostMapping("")
-    public ResponseEntity<?> createCity(@Valid @RequestBody CityDto cityDto ){
-        URI uri = cityService.createCity(cityDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(uri);
+    public ResponseEntity<City> createCity(@Valid @RequestBody CityDto cityDto ){
+        City city = cityService.createCity(cityDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(city);
     }
 
     @PutMapping("/{idCity}")
-    public ResponseEntity<?> updateCity(@PathVariable(name = "idCity")Integer idCity, @Valid @RequestBody CityDto cityDto){
+    public ResponseEntity<City> updateCity(@PathVariable(name = "idCity")Integer idCity, @Valid @RequestBody CityDto cityDto){
         return ResponseEntity.ok(cityService.updateCity(idCity,cityDto));
     }
 
     @DeleteMapping("/{idCity}")
-    public ResponseEntity<?> deleteCity(@PathVariable(name = "idCity")Integer idCity){
-        cityService.deleteCity(idCity);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<City> deleteCity(@PathVariable(name = "idCity")Integer idCity){
+        return ResponseEntity.ok().body(cityService.deleteCity(idCity));
     }
 
 }

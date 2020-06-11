@@ -17,7 +17,9 @@ public class CityDto {
     @NotBlank(message = "Invalid name")
     private String name;
 
-    public void fromCity(City city){
-        setName(city.getName());
+    public static CityDto fromCity(City city){
+        return CityDto.builder()
+                .name(city.getName())
+                .build();
     }
 }
