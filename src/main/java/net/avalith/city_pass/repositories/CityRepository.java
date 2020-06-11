@@ -20,4 +20,6 @@ public interface CityRepository extends JpaRepository<City,Integer> {
     void logicalDelete(Integer idCity);
 
     List<City> findAllByIsActive(Boolean status);
+
+    Optional<City> findByNameAndIsActive(String cityName, Boolean aTrue);
 }

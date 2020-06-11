@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -28,6 +29,11 @@ public class CityController {
     public ResponseEntity<List<City>> getAllCities(){
         List<City> list = cityService.getAllActiveCities();
         return (list.size() >0 )? ResponseEntity.ok(list) : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping(value = "", params="cityName")
+    public ResponseEntity<City> getCityByName(@RequestParam(value = "cityName") String cityName){
+        return ResponseEntity.ok(cityService.getByName(cityName));
     }
 
     @GetMapping("/{idCity}")

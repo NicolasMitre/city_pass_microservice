@@ -33,6 +33,11 @@ public class CityService {
                 .orElseThrow(CityNotFoundException::new);
     }
 
+    public City getByName(String cityName){
+        return cityRepository.findByNameAndIsActive(cityName,Boolean.TRUE)
+                .orElseThrow(CityNotFoundException::new);
+    }
+
     public City updateCity(Integer idCity, CityDto cityDto) {
         return cityRepository.findByIdAndIsActive(idCity,Boolean.TRUE)
                 .map(city -> update(city, cityDto))
