@@ -22,7 +22,6 @@ public class CityPassService {
     }
 
     public CityPass createCityPass(CityPassDto cityPassDto) {
-
         CityPass cityPass = CityPass.builder()
                 .name(cityPassDto.getName())
                 .description(cityPassDto.getDescription())
