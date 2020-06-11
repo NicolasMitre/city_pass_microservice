@@ -26,7 +26,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<?> getAllUser(){
+    public ResponseEntity<List<UserDto>> getAllUser(){
         List<UserDto> listDto = this.userService.getAll();
         return (listDto.size() > 0) ? ResponseEntity.ok(listDto) :
                 ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -34,27 +34,27 @@ public class UserController {
     }
 
     @GetMapping("/{idUser}")
-    public ResponseEntity<?> getUserById(@PathVariable(name = "idUser") Integer id){
+    public ResponseEntity<UserDto> getUserById(@PathVariable(name = "idUser") Integer id){
         UserDto userDto = this.userService.getById(id);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userDto);
+        return ResponseEntity.status(HttpStatus.FOUND).body(userDto);
     }
     
     @PostMapping("")
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserDto userDto){
-        URI uri = userService.createUser(userDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(uri);
+    public ResponseEntity<User> createUser(@Valid @RequestBody UserDto userDto){
+        User user = userService.createUser(userDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
     @PutMapping("/{idUser}")
-    public ResponseEntity<?> updateUser(@Valid @PathVariable(name = "idUser") Integer id,  @RequestBody UserDto userDto){
-        User user= userService.updateUser(id,userDto);
+    public ResponseEntity<UserDto> updateUser(@Valid @PathVariable(name = "idUser") Integer id,  @RequestBody UserDto userDto){
+        UserDto user= userService.updateUser(id,userDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
     }
 
     @DeleteMapping("/{idUser}")
-    public ResponseEntity<?> deleteUser(@Valid @PathVariable(name = "idUser") Integer id)
+    public ResponseEntity<UserDto> deleteUser(@Valid @PathVariable(name = "idUser") Integer id)
     {
-        this.userService.logicDelete(id);
-        return ResponseEntity.ok().build();
+        UserDto userDto = this.userService.logicDelete(id);
+        return ResponseEntity.ok(userDto);
     }
 
 

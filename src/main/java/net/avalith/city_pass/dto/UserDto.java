@@ -8,24 +8,19 @@ import net.avalith.city_pass.models.Role;
 import net.avalith.city_pass.models.User;
 
 import javax.validation.constraints.NotBlank;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
+
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    @NotBlank(message = "Invalid username")
+    @NotBlank(message = "username is mandatory")
     private String username;
 
-    @NotBlank(message = "Invalid name")
+    @NotBlank(message = "name is mandatory")
     private String name;
 
     private List<String> roles;
@@ -33,14 +28,11 @@ public class UserDto {
 
 
     public UserDto (User user) {
-        Set<Role> roleSet = user.getRoles();
-        List<String> r = new ArrayList<>();
-        System.out.println("Roleset :" + roleSet);
-        for (Role rol : roleSet) {
-            r.add(rol.getName());
-        }
+
         this.username = user.getUsername();
         this.name =  user.getName();
-        roles = r;
+        roles = user.getRoles().stream()
+                .map(role -> role.getName())
+                .collect(Collectors.toList());
     }
 }
