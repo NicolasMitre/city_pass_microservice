@@ -31,7 +31,7 @@ public class UserDto {
 
         this.username = user.getUsername();
         this.name =  user.getName();
-        roles = user.getRoles().stream()
+        this.roles = user.getRoles().stream()
                 .map(role -> role.getName())
                 .collect(Collectors.toList());
     }
