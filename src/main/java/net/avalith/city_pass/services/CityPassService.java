@@ -18,10 +18,10 @@ public class CityPassService {
     private final CityPassRepository cityPassRepository;
 
     public List<CityPass> getAllCityPassesActives() {
-        return cityPassRepository.findAllByStatus(true);
+        return cityPassRepository.findAllByIsActive(true);
     }
 
-    public URI createCityPass(CityPassDto cityPassDto) {
+    public CityPass createCityPass(CityPassDto cityPassDto) {
 
         CityPass cityPass = CityPass.builder()
                 .name(cityPassDto.getName())
@@ -29,10 +29,10 @@ public class CityPassService {
                 .days(cityPassDto.getDays())
                 .price(cityPassDto.getPrice())
                 .isActive(true).build();
-        cityPass = cityPassRepository.save(cityPass);
-        return getLocation(cityPass);
+        return cityPassRepository.save(cityPass);
     }
 
+    @Deprecated
     private URI getLocation(CityPass cityPass) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -41,40 +41,31 @@ public class CityPassService {
                 .toUri();
     }
 
-    public CityPassDto getById(Integer idCityPass) {
-        CityPass cityPass = cityPassRepository.findByIdAndIsActive(idCityPass, true)
+    public CityPass getById(Integer idCityPass) {
+        return cityPassRepository.findByIdAndIsActive(idCityPass, true)
                 .orElseThrow(CityPassNotFoundException::new);
-        CityPassDto cityPassDto = new CityPassDto();
-        cityPassDto.fromCityPass(cityPass);
-        return cityPassDto;
     }
 
     public CityPass updateCityPass(Integer idCityPass, CityPassDto cityPassDto) {
-        CityPass cityPass = cityPassRepository.findByIdAndIsActive(idCityPass, true)
+        return cityPassRepository.findByIdAndIsActive(idCityPass, Boolean.TRUE)
+                .map(cityPass -> update(cityPass, cityPassDto))
+                .map(cityPassRepository::save)
                 .orElseThrow(CityPassNotFoundException::new);
-        update(cityPass, cityPassDto);
-        cityPass = cityPassRepository.save(cityPass);
-        return CityPass.builder()
-                .name(cityPass.getName())
-                .description(cityPass.getDescription())
-                .price(cityPass.getPrice())
-                .days(cityPass.getDays())
-                .isActive(cityPass.getIsActive())
-                .build();
-
     }
 
-    private void update(CityPass cityPass, CityPassDto cityPassDto){
+    private CityPass update(CityPass cityPass, CityPassDto cityPassDto){
         cityPass.setName(cityPassDto.getName());
         cityPass.setDescription(cityPassDto.getDescription());
         cityPass.setPrice(cityPassDto.getPrice());
         cityPass.setDays(cityPassDto.getDays());
+        return cityPass;
     }
 
-    public void deleteCityPass(Integer idCityPass) {
+    public CityPass deleteCityPass(Integer idCityPass) {
         CityPass cityPass = cityPassRepository.findByIdAndIsActive(idCityPass, true)
                 .orElseThrow(CityPassNotFoundException::new);
-        cityPassRepository.logicDelete(idCityPass);
+        cityPassRepository.logicDelete(cityPass.getId());
+        return cityPass;
     }
 }
 

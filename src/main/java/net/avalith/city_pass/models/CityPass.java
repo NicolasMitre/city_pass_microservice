@@ -25,7 +25,6 @@ public class CityPass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_city_pass")
-    @JsonIgnore
     private Integer id;
 
     @NotNull
@@ -41,6 +40,7 @@ public class CityPass {
     private Integer days;
 
     @NotNull
+    @JsonIgnore
     private Boolean isActive;
 }
 

@@ -7,6 +7,7 @@ import net.avalith.city_pass.models.City;
 import net.avalith.city_pass.models.CityPass;
 import net.avalith.city_pass.models.Role;
 import net.avalith.city_pass.services.CityPassService;
+import net.avalith.city_pass.services.CityService;
 import net.avalith.city_pass.services.RoleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,27 +38,27 @@ public class CityPassController {
     }
 
     @GetMapping("/{idCityPass}")
-    public ResponseEntity<CityPassDto> getCityPassById(@PathVariable(name = "idCityPass") Integer idCityPass){
-        return ResponseEntity.ok(cityPassService.getById(idCityPass));
+    public ResponseEntity<CityPass> getCityPassById(@PathVariable(name = "idCityPass") Integer idCityPass){
+        CityPass cityPass = cityPassService.getById(idCityPass);
+        return ResponseEntity.ok(cityPass);
     }
 
     @PostMapping("")
-    public ResponseEntity<?> createCityPass(@Valid @RequestBody CityPassDto cityPassDto){
-        URI uri = cityPassService.createCityPass(cityPassDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(uri);
+    public ResponseEntity<CityPass> createCityPass(@Valid @RequestBody CityPassDto cityPassDto){
+        CityPass cityPass = cityPassService.createCityPass(cityPassDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(cityPass);
     }
 
     @PutMapping("/{idCityPass}")
-    public ResponseEntity<?> modifyCityPassById(@PathVariable(name = "idCityPass") Integer idCityPass,
+    public ResponseEntity<CityPass> modifyCityPassById(@PathVariable(name = "idCityPass") Integer idCityPass,
                                                 @Valid @RequestBody CityPassDto cityPassDto) {
         CityPass cityPass = cityPassService.updateCityPass(idCityPass, cityPassDto);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(cityPass);
+        return ResponseEntity.ok(cityPass);
     }
 
     @DeleteMapping("/{idCityPass}")
-    public ResponseEntity<?> deleteCityPassById(@PathVariable(name = "idCityPass") Integer idCityPass){
-        cityPassService.deleteCityPass(idCityPass);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    public ResponseEntity<CityPass> deleteCityPassById(@PathVariable(name = "idCityPass") Integer idCityPass){
+        return ResponseEntity.ok(cityPassService.deleteCityPass(idCityPass));
     }
 }
 

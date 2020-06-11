@@ -25,10 +25,12 @@ public class CityPassDto {
     @Min(value = 0)
     private Double price;
 
-    public void fromCityPass(CityPass cityPass){
-        setName(cityPass.getName());
-        setDescription(cityPass.getDescription());
-        setDays(cityPass.getDays());
-        setPrice(cityPass.getPrice());
-    }
+    public static CityPassDto fromCityPass(CityPass cityPass){
+        return CityPassDto.builder()
+                .name(cityPass.getName())
+                .description(cityPass.getDescription())
+                .days(cityPass.getDays())
+                .price(cityPass.getPrice())
+                .build();
+        }
 }
