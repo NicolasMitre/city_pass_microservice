@@ -29,7 +29,7 @@ public class UserDto {
     private List<String> roles;
 
     public UserDto (User user) {
-
+        this.id = user.getId();
         this.username = user.getUsername();
         this.name =  user.getName();
         this.roles = user.getRoles().stream()
