@@ -49,12 +49,12 @@ public class ExcursionController {
     }
 
     @PutMapping("/{idExcursion}")
-    public ResponseEntity<?> updateExcursion(@PathVariable(name = "idExcursion")Integer idExcursion, @Valid @RequestBody ExcursionDto ExcursionDto){
+    public ResponseEntity<Excursion> updateExcursion(@PathVariable(name = "idExcursion")Integer idExcursion, @Valid @RequestBody ExcursionDto ExcursionDto){
         return ResponseEntity.ok(excursionService.updateExcursion(idExcursion,ExcursionDto));
     }
 
     @DeleteMapping("/{idExcursion}")
-    public ResponseEntity<?> deleteExcursion(@PathVariable(name = "idExcursion")Integer idExcursion){
+    public ResponseEntity<Excursion> deleteExcursion(@PathVariable(name = "idExcursion")Integer idExcursion){
         excursionService.deleteExcursion(idExcursion);
         return ResponseEntity.ok().build();
     }

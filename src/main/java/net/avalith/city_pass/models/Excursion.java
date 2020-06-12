@@ -5,6 +5,7 @@ import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,10 +24,11 @@ public class Excursion {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cities_id")
+    @JoinColumn(name = "id_city")
     private City city;
 
     @NotNull
+    @Column(unique = true)
     private String name;
 
     @NotNull

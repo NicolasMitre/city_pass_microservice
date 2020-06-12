@@ -1,6 +1,7 @@
 package net.avalith.city_pass.repositories;
 
 import net.avalith.city_pass.dto.ExcursionDto;
+import net.avalith.city_pass.models.City;
 import net.avalith.city_pass.models.Excursion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,6 +24,4 @@ public interface ExcursionRepository extends JpaRepository<Excursion,Integer> {
     @Modifying
     @Query(value = "UPDATE cities SET is_active = false where cities_id = ?1", nativeQuery = true)
     void logicalDelete(Integer idExcursion);
-
-    //TODO jpql ara solucionar buscar por nombre de la ciudad
 }
