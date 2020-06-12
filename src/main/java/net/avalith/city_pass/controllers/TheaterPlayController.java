@@ -2,6 +2,7 @@ package net.avalith.city_pass.controllers;
 
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.TheaterPlayDto;
+import net.avalith.city_pass.dto.TheaterPlayListDto;
 import net.avalith.city_pass.models.TheaterPlay;
 import net.avalith.city_pass.services.TheaterPlayService;
 import org.springframework.http.HttpStatus;
@@ -24,33 +25,37 @@ public class TheaterPlayController {
     private final TheaterPlayService theaterPlayService;
 
     @GetMapping("")
-    public ResponseEntity<List<TheaterPlayDto>> findAllTheaterPlay(){
-        List<TheaterPlayDto> listDto = this.theaterPlayService.getAll();
-        return (listDto.size() >0 ) ? ResponseEntity.ok(listDto) :
+    public ResponseEntity<TheaterPlayListDto> findAllTheaterPlay(){
+        List<TheaterPlay> list = this.theaterPlayService.getAll();
+        return (list.size() >0 ) ? ResponseEntity.ok(TheaterPlayListDto.fromListTheaterPlay(list)) :
                 ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/{idTheaterPlay}")
     public ResponseEntity<TheaterPlayDto> findByTheaterId(@Valid @PathVariable(name = "idTheaterPlay") Integer id){
-        TheaterPlayDto dto = this.theaterPlayService.getById(id);
+        TheaterPlay theaterPlay = this.theaterPlayService.getById(id);
+        TheaterPlayDto dto = new TheaterPlayDto(theaterPlay);
         return ResponseEntity.status(HttpStatus.FOUND).body(dto);
     }
 
     @PostMapping("")
     public ResponseEntity<TheaterPlayDto> createTheaterPlay(@Valid @RequestBody TheaterPlayDto theaterPlayDto){
-        TheaterPlayDto dto = theaterPlayService.createTheaterPlay(theaterPlayDto);
+        TheaterPlay theaterPlay = theaterPlayService.createTheaterPlay(theaterPlayDto);
+        TheaterPlayDto dto = new TheaterPlayDto(theaterPlay);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @PutMapping("/{idTheaterPlay}")
     public ResponseEntity<TheaterPlayDto> updateUser( @PathVariable(name = "idTheaterPlay") Integer id, @Valid @RequestBody TheaterPlayDto theaterPlayDto){
-        TheaterPlayDto dto = theaterPlayService.updateTheaterPlay(id,theaterPlayDto);
+        TheaterPlay theaterPlay = theaterPlayService.updateTheaterPlay(id,theaterPlayDto);
+        TheaterPlayDto dto = new TheaterPlayDto(theaterPlay);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(dto);
     }
 
     @DeleteMapping("/{idTheaterPlay}")
     public ResponseEntity<TheaterPlayDto> deleteTheaterPlay(@Valid @PathVariable(name = "idTheaterPlay") Integer id){
-        TheaterPlayDto dto = this.theaterPlayService.logicDelete(id);
+        TheaterPlay theaterPlay = this.theaterPlayService.logicDelete(id);
+        TheaterPlayDto dto = new TheaterPlayDto(theaterPlay);
         return ResponseEntity.ok(dto);
     }
 }
