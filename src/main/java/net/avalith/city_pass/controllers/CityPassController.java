@@ -31,10 +31,9 @@ public class CityPassController {
     private final CityPassService cityPassService;
 
     @GetMapping("")
-    public ResponseEntity<List<CityPass>> getAllCityPasses(){
-        List<CityPass> list = cityPassService.getAllCityPassesActives();
-        return (list.size() > 0) ? ResponseEntity.ok(list) :
-                ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<CityPassDto> getAllCityPasses(){
+        CityPassDto cityPassDto = cityPassService.getAllCityPassesActives();
+        return ResponseEntity.ok(cityPassDto);
     }
 
     @GetMapping("/{idCityPass}")

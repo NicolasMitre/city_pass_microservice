@@ -17,7 +17,7 @@ public class CityPassService {
 
     private final CityPassRepository cityPassRepository;
 
-    public List<CityPass> getAllCityPassesActives() {
+    public CityPassDto getAllCityPassesActives() {
         return cityPassRepository.findAllByIsActive(true);
     }
 
@@ -29,15 +29,6 @@ public class CityPassService {
                 .price(cityPassDto.getPrice())
                 .isActive(true).build();
         return cityPassRepository.save(cityPass);
-    }
-
-    @Deprecated
-    private URI getLocation(CityPass cityPass) {
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(cityPass.getId())
-                .toUri();
     }
 
     public CityPass getById(Integer idCityPass) {
