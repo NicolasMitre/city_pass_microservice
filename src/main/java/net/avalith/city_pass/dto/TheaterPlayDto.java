@@ -48,6 +48,7 @@ public class TheaterPlayDto {
 
     public TheaterPlayDto (TheaterPlay theaterPlay)
     {
+        this.id = theaterPlay.getId();
         this.cityName = theaterPlay.getCity().getName();
         this.name = theaterPlay.getName();
         this.durationInMinutes = theaterPlay.getDurationInMinutes();
