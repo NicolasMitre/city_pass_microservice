@@ -52,7 +52,7 @@ public class TheaterPlay {
     @NotNull
     private String description;
 
-
+    @Builder.Default
     @NotNull
-    private Boolean isActive;
+    private Boolean isActive = Boolean.TRUE;
 }

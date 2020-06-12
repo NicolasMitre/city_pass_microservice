@@ -8,7 +8,6 @@ import net.avalith.city_pass.repositories.TheaterPlayRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -16,14 +15,11 @@ public class TheaterPlayService {
     private final TheaterPlayRepository theaterPlayRepository;
     private final CityService cityService;
 
-    public List<TheaterPlayDto> getAll() {
-        return this.theaterPlayRepository.findAllByisActive(Boolean.TRUE)
-                .stream()
-                .map(TheaterPlayDto::new)
-                .collect(Collectors.toList());
+    public List<TheaterPlay> getAll() {
+        return this.theaterPlayRepository.findAllByisActive(Boolean.TRUE);
     }
 
-    public TheaterPlayDto createTheaterPlay(TheaterPlayDto theaterPlayDto) {
+    public TheaterPlay createTheaterPlay(TheaterPlayDto theaterPlayDto) {
         TheaterPlay theaterPlay = TheaterPlay.builder()
                                 .city(findByNameAndIsActive(theaterPlayDto.getCityName(),Boolean.TRUE))
                                 .theaterName(theaterPlayDto.getTheaterName())
@@ -32,23 +28,20 @@ public class TheaterPlayService {
                                 .price(theaterPlayDto.getPrice())
                                 .playDate(theaterPlayDto.getPlayDate())
                                 .description(theaterPlayDto.getDescription())
-                                .isActive(Boolean.TRUE)
                                 .build();
-        return new TheaterPlayDto(theaterPlayRepository.save(theaterPlay));
+        return theaterPlayRepository.save(theaterPlay);
     }
 
-    public TheaterPlayDto getById(Integer id) {
-        return theaterPlayRepository.findByIdAndIsActive(id,true)
-                .map(TheaterPlayDto::new)
+    public TheaterPlay getById(Integer id) {
+        return theaterPlayRepository.findByIdAndIsActive(id,Boolean.TRUE)
                 .orElseThrow(TheaterPlayNotFoundException::new);
     }
 
 
-    public TheaterPlayDto updateTheaterPlay(Integer id, TheaterPlayDto theaterPlayDto) {
-        return this.theaterPlayRepository.findByIdAndIsActive(id, true)
+    public TheaterPlay updateTheaterPlay(Integer id, TheaterPlayDto theaterPlayDto) {
+        return this.theaterPlayRepository.findByIdAndIsActive(id, Boolean.TRUE)
                 .map(theaterPlay -> update(theaterPlay,theaterPlayDto))
                 .map(theaterPlayRepository::save)
-                .map(TheaterPlayDto::new)
                 .orElseThrow(TheaterPlayNotFoundException::new);
     }
 
@@ -64,11 +57,11 @@ public class TheaterPlayService {
     }
 
 
-    public TheaterPlayDto logicDelete(Integer id) {
-        TheaterPlayDto theaterPlayDto = this.theaterPlayRepository.findByIdAndIsActive(id,Boolean.TRUE)
-                .map(TheaterPlayDto::new)
+    public TheaterPlay logicDelete(Integer id) {
+        TheaterPlay theaterPlay = this.theaterPlayRepository.findByIdAndIsActive(id,Boolean.TRUE)
                 .orElseThrow(TheaterPlayNotFoundException::new);
-        this.theaterPlayRepository.deleteById(id);
-        return theaterPlayDto;
+        theaterPlay.setIsActive(Boolean.FALSE);
+        return this.theaterPlayRepository.save(theaterPlay);
+
     }
 }

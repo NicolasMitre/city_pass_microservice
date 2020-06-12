@@ -20,6 +20,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class TheaterPlayDto {
     @NotNull
+    private Integer id;
+
+    @NotNull
     private String cityName;
 
     @NotNull
