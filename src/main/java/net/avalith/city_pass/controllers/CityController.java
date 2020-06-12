@@ -29,8 +29,7 @@ public class CityController {
     @GetMapping("")
     public ResponseEntity<ListCityDto> getAllCities(){
         List<City> cities = cityService.getAllCities();
-        ListCityDto list = ListCityDto.fromCityList(cities);
-
+        
         return (cities.size() > 0 )? ResponseEntity.ok(ListCityDto.fromCityList(cities)) :
                 ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
