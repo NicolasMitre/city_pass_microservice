@@ -50,7 +50,7 @@ public class CityService {
     }
 
     public City deleteCity(Integer idCity) {
-        City city = cityRepository.findByIdAndIsActive(idCity, true)
+        City city = cityRepository.findByIdAndIsActive(idCity, Boolean.TRUE)
                 .orElseThrow(CityNotFoundException::new);
 
         city.setIsActive(Boolean.FALSE);
