@@ -14,11 +14,14 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CityDto {
+    private Integer id;
+
     @NotBlank(message = "Name is mandatory")
     private String name;
 
     public static CityDto fromCity(City city){
         return CityDto.builder()
+                .id(city.getId())
                 .name(city.getName())
                 .build();
     }
