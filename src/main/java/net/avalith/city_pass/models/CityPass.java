@@ -41,6 +41,6 @@ public class CityPass {
 
     @NotNull
     @JsonIgnore
-    private Boolean isActive;
+    @Builder.Default
+    private Boolean isActive = Boolean.TRUE;
 }
-

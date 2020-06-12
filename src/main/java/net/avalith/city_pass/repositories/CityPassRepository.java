@@ -1,5 +1,6 @@
 package net.avalith.city_pass.repositories;
 
+import net.avalith.city_pass.dto.CityPassDto;
 import net.avalith.city_pass.models.CityPass;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,7 +18,5 @@ public interface CityPassRepository extends JpaRepository<CityPass, Integer> {
     Integer logicDelete(Integer idCityPass);
 
     Optional<CityPass> findByIdAndIsActive(Integer idCityPass, boolean b);
-//    @Query(value = "SELECT * from city_pass where is_active = :status", nativeQuery = true)
-//    List<CityPass> findAllByStatus(@Param("status") Boolean b);
-    List<CityPass> findAllByIsActive(Boolean status);
+    CityPassDto findAllByIsActive(Boolean status);
 }

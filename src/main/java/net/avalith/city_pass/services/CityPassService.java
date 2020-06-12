@@ -6,10 +6,6 @@ import net.avalith.city_pass.exceptions.CityPassNotFoundException;
 import net.avalith.city_pass.models.CityPass;
 import net.avalith.city_pass.repositories.CityPassRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +13,7 @@ public class CityPassService {
 
     private final CityPassRepository cityPassRepository;
 
-    public List<CityPass> getAllCityPassesActives() {
+    public CityPassDto getAllCityPassesActives() {
         return cityPassRepository.findAllByIsActive(true);
     }
 
@@ -27,17 +23,8 @@ public class CityPassService {
                 .description(cityPassDto.getDescription())
                 .days(cityPassDto.getDays())
                 .price(cityPassDto.getPrice())
-                .isActive(true).build();
+                .build();
         return cityPassRepository.save(cityPass);
-    }
-
-    @Deprecated
-    private URI getLocation(CityPass cityPass) {
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(cityPass.getId())
-                .toUri();
     }
 
     public CityPass getById(Integer idCityPass) {
