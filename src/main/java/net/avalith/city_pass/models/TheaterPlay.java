@@ -35,6 +35,9 @@ public class TheaterPlay {
     private City city;
 
     @NotNull
+    private String theaterName;
+
+    @NotNull
     private String name;
 
     @NotNull
