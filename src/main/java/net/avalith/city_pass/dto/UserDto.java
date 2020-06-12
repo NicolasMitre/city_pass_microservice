@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.avalith.city_pass.models.Role;
 import net.avalith.city_pass.models.User;
 
 import javax.validation.constraints.NotBlank;
@@ -24,8 +23,6 @@ public class UserDto {
     private String name;
 
     private List<String> roles;
-
-
 
     public UserDto (User user) {
 

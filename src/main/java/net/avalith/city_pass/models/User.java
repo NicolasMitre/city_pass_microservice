@@ -34,7 +34,8 @@ public class User {
     private String name;
 
     @NotNull
-    private Boolean isActive;
+    @Builder.Default
+    private Boolean isActive = Boolean.TRUE;
 
     @ManyToMany
     @JoinTable(

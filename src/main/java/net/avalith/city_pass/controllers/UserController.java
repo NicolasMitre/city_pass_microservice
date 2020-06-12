@@ -2,6 +2,7 @@ package net.avalith.city_pass.controllers;
 
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.UserDto;
+import net.avalith.city_pass.dto.UserListDto;
 import net.avalith.city_pass.models.User;
 import net.avalith.city_pass.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -24,36 +25,40 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<List<UserDto>> getAllUser(){
-        List<UserDto> listDto = this.userService.getAll();
-        return (listDto.size() > 0) ? ResponseEntity.ok(listDto) :
+    public ResponseEntity<UserListDto> getAllUser(){
+        List<User> list = this.userService.getAll();
+        return (list.size() > 0) ? ResponseEntity.ok(UserListDto.fromListDto(list)) :
                 ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 
     @GetMapping("/{idUser}")
     public ResponseEntity<UserDto> getUserById(@PathVariable(name = "idUser") Integer id){
-        UserDto userDto = this.userService.getById(id);
-        return ResponseEntity.status(HttpStatus.FOUND).body(userDto);
+        User user = this.userService.getById(id);
+        UserDto dto = new UserDto(user);
+        return ResponseEntity.status(HttpStatus.FOUND).body(dto);
     }
     
     @PostMapping("")
-    public ResponseEntity<User> createUser(@Valid @RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
         User user = userService.createUser(userDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        UserDto dto = new UserDto(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @PutMapping("/{idUser}")
     public ResponseEntity<UserDto> updateUser( @PathVariable(name = "idUser") Integer id, @Valid @RequestBody UserDto userDto){
-        UserDto user= userService.updateUser(id,userDto);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
+        User user= userService.updateUser(id,userDto);
+        UserDto dto = new UserDto(user);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(dto);
     }
 
     @DeleteMapping("/{idUser}")
     public ResponseEntity<UserDto> deleteUser(@Valid @PathVariable(name = "idUser") Integer id)
     {
-        UserDto userDto = this.userService.logicDelete(id);
-        return ResponseEntity.ok(userDto);
+        User user = this.userService.logicDelete(id);
+        UserDto dto = new UserDto(user);
+        return ResponseEntity.ok(dto);
     }
 
 
