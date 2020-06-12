@@ -2,6 +2,7 @@ package net.avalith.city_pass.controllers;
 
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.CityPassDto;
+import net.avalith.city_pass.dto.ListCityPassDto;
 import net.avalith.city_pass.models.CityPass;
 import net.avalith.city_pass.services.CityPassService;
 import org.springframework.http.HttpStatus;
@@ -25,9 +26,10 @@ public class CityPassController {
     private final CityPassService cityPassService;
 
     @GetMapping("")
-    public ResponseEntity<CityPassDto> getAllCityPasses(){
-        CityPassDto cityPassDto = cityPassService.getAllCityPassesActives();
-        return ResponseEntity.ok(cityPassDto);
+    public ResponseEntity<ListCityPassDto> getAllCityPasses(){
+        List<CityPass> cityPassList = cityPassService.getAllCityPasses();
+        return (cityPassList.size() > 0) ? ResponseEntity.ok(ListCityPassDto.fromListDto(cityPassList))
+                : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/{idCityPass}")
