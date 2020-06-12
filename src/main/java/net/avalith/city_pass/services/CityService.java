@@ -15,14 +15,13 @@ public class CityService {
 
     private final CityRepository cityRepository;
 
-    public List<City> getAllActiveCities(){
+    public List<City> getAllCities(){
         return cityRepository.findAllByIsActive(Boolean.TRUE);
     }
 
     public City createCity(CityDto cityDto) {
         City city = City.builder()
                 .name(cityDto.getName())
-                .isActive(true)
                 .build();
 
         return cityRepository.save(city);
@@ -53,8 +52,8 @@ public class CityService {
     public City deleteCity(Integer idCity) {
         City city = cityRepository.findByIdAndIsActive(idCity, true)
                 .orElseThrow(CityNotFoundException::new);
-        cityRepository.logicalDelete(city.getId());
 
-        return city;
+        city.setIsActive(Boolean.FALSE);
+        return cityRepository.save(city);
     }
 }

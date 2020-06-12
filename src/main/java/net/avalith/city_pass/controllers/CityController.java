@@ -2,6 +2,7 @@ package net.avalith.city_pass.controllers;
 
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.CityDto;
+import net.avalith.city_pass.dto.ListCityDto;
 import net.avalith.city_pass.models.City;
 import net.avalith.city_pass.services.CityService;
 import org.springframework.http.HttpStatus;
@@ -26,35 +27,42 @@ public class CityController {
     private final CityService cityService;
 
     @GetMapping("")
-    public ResponseEntity<List<City>> getAllCities(){
-        List<City> list = cityService.getAllActiveCities();
-        return (list.size() >0 )? ResponseEntity.ok(list) : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<ListCityDto> getAllCities(){
+        List<City> cities = cityService.getAllCities();
+        ListCityDto list = ListCityDto.fromCityList(cities);
+
+        return (cities.size() > 0 )? ResponseEntity.ok(ListCityDto.fromCityList(cities)) :
+                ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping(value = "", params="cityName")
-    public ResponseEntity<City> getCityByName(@RequestParam(value = "cityName") String cityName){
-        return ResponseEntity.ok(cityService.getByName(cityName));
+    public ResponseEntity<CityDto> getCityByName(@RequestParam(value = "cityName") String cityName){
+        City city = cityService.getByName(cityName);
+        return ResponseEntity.ok(CityDto.fromCity(city));
     }
 
     @GetMapping("/{idCity}")
-    public ResponseEntity<City> getCityById(@PathVariable(name = "idCity") Integer idCity){
-        return ResponseEntity.ok(cityService.getById(idCity));
+    public ResponseEntity<CityDto> getCityById(@PathVariable(name = "idCity") Integer idCity){
+        City city = cityService.getById(idCity);
+        return ResponseEntity.ok(CityDto.fromCity(city));
     }
 
     @PostMapping("")
-    public ResponseEntity<City> createCity(@Valid @RequestBody CityDto cityDto ){
+    public ResponseEntity<CityDto> createCity(@Valid @RequestBody CityDto cityDto ){
         City city = cityService.createCity(cityDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(city);
+        return ResponseEntity.status(HttpStatus.CREATED).body(CityDto.fromCity(city));
     }
 
     @PutMapping("/{idCity}")
-    public ResponseEntity<City> updateCity(@PathVariable(name = "idCity")Integer idCity, @Valid @RequestBody CityDto cityDto){
-        return ResponseEntity.ok(cityService.updateCity(idCity,cityDto));
+    public ResponseEntity<CityDto> updateCity(@PathVariable(name = "idCity")Integer idCity, @Valid @RequestBody CityDto cityDto){
+        City city = cityService.updateCity(idCity,cityDto);
+        return ResponseEntity.ok(CityDto.fromCity(city));
     }
 
     @DeleteMapping("/{idCity}")
-    public ResponseEntity<City> deleteCity(@PathVariable(name = "idCity")Integer idCity){
-        return ResponseEntity.ok().body(cityService.deleteCity(idCity));
+    public ResponseEntity<CityDto> deleteCity(@PathVariable(name = "idCity")Integer idCity){
+        City city = cityService.deleteCity(idCity);
+        return ResponseEntity.ok().body(CityDto.fromCity(city));
     }
 
 }

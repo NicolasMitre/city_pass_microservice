@@ -30,6 +30,6 @@ public class City {
     private String name;
 
     @NotNull
-    @JsonIgnore
-    private Boolean isActive;
+    @Builder.Default
+    private Boolean isActive = Boolean.TRUE;
 }
