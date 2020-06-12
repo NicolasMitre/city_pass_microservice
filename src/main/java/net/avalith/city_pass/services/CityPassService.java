@@ -50,8 +50,8 @@ public class CityPassService {
     public CityPass deleteCityPass(Integer idCityPass) {
         CityPass cityPass = cityPassRepository.findByIdAndIsActive(idCityPass, true)
                 .orElseThrow(CityPassNotFoundException::new);
-        cityPassRepository.logicDelete(cityPass.getId());
-        return cityPass;
+        cityPass.setIsActive(Boolean.FALSE);
+        return cityPassRepository.save(cityPass);
     }
 }
 
