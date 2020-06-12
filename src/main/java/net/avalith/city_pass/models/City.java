@@ -27,6 +27,7 @@ public class City {
     private Integer id;
 
     @NotNull
+    @Column(unique = true)
     private String name;
 
     @NotNull
