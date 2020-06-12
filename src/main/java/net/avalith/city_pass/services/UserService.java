@@ -9,9 +9,7 @@ import net.avalith.city_pass.models.User;
 import net.avalith.city_pass.repositories.RoleRepository;
 import net.avalith.city_pass.repositories.UserRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,16 +20,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    public List<UserDto> getAll() {
-        return this.userRepository.findAllByisActive(true)
-                .stream()
-                .map(UserDto::new)
-                .collect(Collectors.toList());
+    public List<User> getAll() {
+        return this.userRepository.findAllByIsActive(Boolean.TRUE);
     }
 
-    public UserDto getById(Integer id) {
-        return userRepository.findByIdAndIsActive(id,true)
-                .map(UserDto::new)
+    public User getById(Integer id) {
+        return userRepository.findByIdAndIsActive(id,Boolean.TRUE)
                 .orElseThrow(UserNotFoundException::new);
     }
 
@@ -40,10 +34,8 @@ public class UserService {
         User user = User.builder().name(userDto.getName())
                 .username(userDto.getUsername())
                 .roles(findRoles(userDto.getRoles()))
-                .isActive(true)
                 .build();
-        user = userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     private Set<Role> findRoles(List<String> roleNames){
@@ -57,28 +49,18 @@ public class UserService {
                 .orElseThrow(RoleNotFoundException::new);
 }
 
-    private URI getLocation(User user) {
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(user.getId())
-                .toUri();
-    }
-
-    public UserDto updateUser(Integer idUser, UserDto userDto) {
-        return this.userRepository.findByIdAndIsActive(idUser, true)
+    public User updateUser(Integer idUser, UserDto userDto) {
+        return this.userRepository.findByIdAndIsActive(idUser, Boolean.TRUE)
                 .map(user -> update(user,userDto))
                         .map(user -> this.userRepository.save(user))
-                        .map(UserDto::new)
                         .orElseThrow(UserNotFoundException::new);
     }
 
-    public UserDto logicDelete(Integer id) {
-        UserDto userDto = this.userRepository.findByIdAndIsActive(id,true)
-                .map(UserDto::new)
+    public User logicDelete(Integer id) {
+        User user= this.userRepository.findByIdAndIsActive(id,Boolean.TRUE)
                 .orElseThrow(UserNotFoundException::new);
-        this.userRepository.deleteById(id);
-        return userDto;
+        user.setIsActive(Boolean.FALSE);
+        return userRepository.save(user);
     }
 
     private User update(User user, UserDto userDto){
