@@ -40,7 +40,6 @@ public class CityPass {
     private Integer days;
 
     @NotNull
-    @JsonIgnore
-    private Boolean isActive;
+    @Builder.Default
+    private Boolean isActive = Boolean.TRUE;
 }
-

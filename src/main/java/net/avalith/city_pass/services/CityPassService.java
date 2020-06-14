@@ -6,9 +6,7 @@ import net.avalith.city_pass.exceptions.CityPassNotFoundException;
 import net.avalith.city_pass.models.CityPass;
 import net.avalith.city_pass.repositories.CityPassRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @Service
@@ -17,7 +15,7 @@ public class CityPassService {
 
     private final CityPassRepository cityPassRepository;
 
-    public CityPassDto getAllCityPassesActives() {
+    public List<CityPass> getAllCityPasses() {
         return cityPassRepository.findAllByIsActive(true);
     }
 
@@ -27,7 +25,7 @@ public class CityPassService {
                 .description(cityPassDto.getDescription())
                 .days(cityPassDto.getDays())
                 .price(cityPassDto.getPrice())
-                .isActive(true).build();
+                .build();
         return cityPassRepository.save(cityPass);
     }
 
@@ -54,8 +52,8 @@ public class CityPassService {
     public CityPass deleteCityPass(Integer idCityPass) {
         CityPass cityPass = cityPassRepository.findByIdAndIsActive(idCityPass, true)
                 .orElseThrow(CityPassNotFoundException::new);
-        cityPassRepository.logicDelete(cityPass.getId());
-        return cityPass;
+        cityPass.setIsActive(Boolean.FALSE);
+        return cityPassRepository.save(cityPass);
     }
 }
 
