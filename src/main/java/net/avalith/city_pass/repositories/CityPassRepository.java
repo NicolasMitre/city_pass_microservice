@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface CityPassRepository extends JpaRepository<CityPass, Integer> {
-       Optional<CityPass> findByIdAndIsActive(Integer idCityPass, boolean b);
+       Optional<CityPass> findByIdAndIsActive(Integer idCityPass, Boolean isActive);
        List<CityPass> findAllByIsActive(Boolean status);
 }
