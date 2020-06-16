@@ -1,6 +1,5 @@
 package net.avalith.city_pass.models;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
