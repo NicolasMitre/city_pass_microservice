@@ -6,9 +6,7 @@ import net.avalith.city_pass.exceptions.CityNotFoundException;
 import net.avalith.city_pass.models.City;
 import net.avalith.city_pass.repositories.CityRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @Service
@@ -17,30 +15,45 @@ public class CityService {
 
     private final CityRepository cityRepository;
 
-    public List<City> getAll(){
-        return cityRepository.findAll();
+    public List<City> getAllCities(){
+        return cityRepository.findAllByIsActive(Boolean.TRUE);
     }
 
-    public URI createCity(CityDto cityDto) {
-        City city = City.builder().name(cityDto.getName()).build();
-        city = cityRepository.save(city);
-        return getLocation(city);
+    public City createCity(CityDto cityDto) {
+        City city = City.builder()
+                .name(cityDto.getName())
+                .build();
+
+        return cityRepository.save(city);
     }
 
-    private URI getLocation(City city) {
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(city.getId())
-                .toUri();
+    public City getById(Integer idCity){
+        return cityRepository.findByIdAndIsActive(idCity,Boolean.TRUE)
+                .orElseThrow(CityNotFoundException::new);
     }
 
-    public CityDto getById(Integer idCity){
-        City city = cityRepository.findById(idCity)
+    public City getByName(String cityName){
+        return cityRepository.findByNameAndIsActive(cityName,Boolean.TRUE)
+                .orElseThrow(CityNotFoundException::new);
+    }
+
+    public City updateCity(Integer idCity, CityDto cityDto) {
+        return cityRepository.findByIdAndIsActive(idCity,Boolean.TRUE)
+                .map(city -> update(city, cityDto))
+                .map(city -> cityRepository.save(city))
+                .orElseThrow(CityNotFoundException::new);
+    }
+
+    private City update(City city, CityDto cityDto){
+        city.setName(cityDto.getName());
+        return city;
+    }
+
+    public City deleteCity(Integer idCity) {
+        City city = cityRepository.findByIdAndIsActive(idCity, Boolean.TRUE)
                 .orElseThrow(CityNotFoundException::new);
 
-        CityDto cityDto = new CityDto();
-        cityDto.fromCity(city);
-        return cityDto;
+        city.setIsActive(Boolean.FALSE);
+        return cityRepository.save(city);
     }
 }

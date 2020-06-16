@@ -1,7 +1,6 @@
 package net.avalith.city_pass.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,10 +14,15 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CityDto {
-    @NotBlank(message = "Invalid name")
+    private Integer id;
+
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
-    public void fromCity(City city){
-        setName(city.getName());
+    public static CityDto fromCity(City city){
+        return CityDto.builder()
+                .id(city.getId())
+                .name(city.getName())
+                .build();
     }
 }
