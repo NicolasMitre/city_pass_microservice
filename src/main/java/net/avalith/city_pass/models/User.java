@@ -1,8 +1,12 @@
 package net.avalith.city_pass.models;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,9 +19,12 @@ import java.util.Set;
 @Data
 @Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
     private Integer id;
 
     @NotNull
@@ -25,6 +32,10 @@ public class User {
 
     @NotNull
     private String name;
+
+    @NotNull
+    @Builder.Default
+    private Boolean isActive = Boolean.TRUE;
 
     @ManyToMany
     @JoinTable(
