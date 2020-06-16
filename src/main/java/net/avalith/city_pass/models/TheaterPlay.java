@@ -1,9 +1,12 @@
 package net.avalith.city_pass.models;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,9 +18,13 @@ import javax.persistence.ManyToOne;
 @Data
 @Builder
 @Entity
-public class TheatherPlay {
+@AllArgsConstructor
+@NoArgsConstructor
+
+public class TheaterPlay {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_theaterplay")
     private Integer id;
 
     private final Integer CAPACITY = 100;
