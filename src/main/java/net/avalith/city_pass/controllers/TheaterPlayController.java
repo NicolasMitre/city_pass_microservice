@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 @RequiredArgsConstructor
 @RestController
@@ -36,6 +38,20 @@ public class TheaterPlayController {
         TheaterPlay theaterPlay = this.theaterPlayService.getById(id);
         TheaterPlayDto dto = new TheaterPlayDto(theaterPlay);
         return ResponseEntity.status(HttpStatus.FOUND).body(dto);
+    }
+
+    @GetMapping(value = "",params = "theaterPlayName")
+    public ResponseEntity<TheaterPlayDto> findByTheaterPlayName(@Valid @RequestParam(name = "theaterPlayName") String theaterPlayName)
+    {
+        TheaterPlay theaterPlay = this.theaterPlayService.getByName(theaterPlayName);
+        TheaterPlayDto dto = new TheaterPlayDto(theaterPlay);
+        return ResponseEntity.status(HttpStatus.FOUND).body(dto);
+    }
+
+    @GetMapping("/city/{cityName}")
+    public ResponseEntity<TheaterPlayListDto> findByCityName(@Valid @PathVariable(value = "cityName") @NotNull String cityName){
+        List<TheaterPlay> theaterListPlay = this.theaterPlayService.getByCityName(cityName);
+        return ResponseEntity.status(HttpStatus.FOUND).body(TheaterPlayListDto.fromListTheaterPlay(theaterListPlay));
     }
 
     @PostMapping("")

@@ -19,7 +19,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TheaterPlayDto {
-    @NotNull
     private Integer id;
 
     @NotNull
@@ -50,6 +49,7 @@ public class TheaterPlayDto {
     {
         this.id = theaterPlay.getId();
         this.cityName = theaterPlay.getCity().getName();
+        this.theaterName = theaterPlay.getTheaterName();
         this.name = theaterPlay.getName();
         this.durationInMinutes = theaterPlay.getDurationInMinutes();
         this.price = theaterPlay.getPrice();
