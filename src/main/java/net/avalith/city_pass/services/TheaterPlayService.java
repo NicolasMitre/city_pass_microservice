@@ -21,7 +21,7 @@ public class TheaterPlayService {
 
     public TheaterPlay createTheaterPlay(TheaterPlayDto theaterPlayDto) {
         TheaterPlay theaterPlay = TheaterPlay.builder()
-                                .city(findByNameAndIsActive(theaterPlayDto.getCityName(),Boolean.TRUE))
+                                .city(cityService.getByName(theaterPlayDto.getCityName()))
                                 .theaterName(theaterPlayDto.getTheaterName())
                                 .name(theaterPlayDto.getName())
                                 .durationInMinutes(theaterPlayDto.getDurationInMinutes())
@@ -46,7 +46,7 @@ public class TheaterPlayService {
     }
 
     private TheaterPlay update(TheaterPlay theaterPlay, TheaterPlayDto theaterPlayDto){
-        theaterPlay.setCity(cityService.findByNameAndIsActive(theaterPlayDto.getCityName(),Boolean.TRUE));
+        theaterPlay.setCity(cityService.getByName(theaterPlayDto.getCityName()));
         theaterPlay.setName(theaterPlayDto.getName());
         theaterPlay.setDurationInMinutes(theaterPlayDto.getDurationInMinutes());
         theaterPlay.setPrice(theaterPlayDto.getPrice());
@@ -63,5 +63,15 @@ public class TheaterPlayService {
         theaterPlay.setIsActive(Boolean.FALSE);
         return this.theaterPlayRepository.save(theaterPlay);
 
+    }
+
+    public TheaterPlay getByName(String theaterPlayName) {
+       return this.theaterPlayRepository.findByNameAndIsActive(theaterPlayName,Boolean.TRUE)
+                .orElseThrow(TheaterPlayNotFoundException::new);
+    }
+
+    public List<TheaterPlay> getByCityName(String cityName) {
+        return this.theaterPlayRepository.findByCityNameAndIsActive(cityName,Boolean.TRUE)
+                .orElseThrow(TheaterPlayNotFoundException::new);
     }
 }
