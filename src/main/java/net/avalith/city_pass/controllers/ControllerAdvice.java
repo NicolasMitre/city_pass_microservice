@@ -26,23 +26,21 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     public ErrorResponseDto handleLoginException(CityNotFoundException exc) {
         return new ErrorResponseDto(1, CITY_NOT_FOUND_MESSAGE);
     }
-
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(RoleNotFoundException.class)
     public ErrorResponseDto handleLoginException(RoleNotFoundException exc) {
         return new ErrorResponseDto(1, ROLE_NOT_FOUND_MESSAGE);
     }
-
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(TheaterPlayNotFoundException.class)
-    public ErrorResponseDto handleLoginException(TheaterPlayNotFoundException exc){
-        return new ErrorResponseDto(1,THEATERPLAY_NOT_FOUND_MESSAGE);
-        
+    public ErrorResponseDto handleLoginException(TheaterPlayNotFoundException exc) {
+        return new ErrorResponseDto(1, THEATERPLAY_NOT_FOUND_MESSAGE);
+    }
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserNotFoundException.class)
     public ErrorResponseDto handleLoginException(UserNotFoundException exc){
-        return new ErrorResponseDto(1,USER_NOT_FOUND_MESSAGE);
-    
+            return new ErrorResponseDto(1, USER_NOT_FOUND_MESSAGE);
+        }
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(CityPassNotFoundException.class)
     public ErrorResponseDto handleLoginException(CityPassNotFoundException exc) {
