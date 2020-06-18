@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.avalith.city_pass.models.City;
 import net.avalith.city_pass.models.Excursion;
 
 import javax.validation.constraints.Min;
@@ -15,6 +14,9 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExcursionDto {
+
+    private Integer id;
+
     @NotBlank
     private String cityName;
 
@@ -32,6 +34,7 @@ public class ExcursionDto {
 
     public static ExcursionDto fromExcursion(Excursion excursion){
         return ExcursionDto.builder()
+                .id(excursion.getId())
                 .name(excursion.getName())
                 .cityName(excursion.getCity().getName())
                 .description(excursion.getDescription())
