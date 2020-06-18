@@ -3,13 +3,10 @@ package net.avalith.city_pass.services;
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.RoleDto;
 import net.avalith.city_pass.exceptions.RoleNotFoundException;
-import net.avalith.city_pass.models.CityPass;
 import net.avalith.city_pass.models.Role;
 import net.avalith.city_pass.repositories.RoleRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @Service
