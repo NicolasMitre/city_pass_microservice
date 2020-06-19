@@ -41,15 +41,14 @@ public class TheaterPlayController {
     }
 
     @GetMapping(value = "",params = "theaterPlayName")
-    public ResponseEntity<TheaterPlayDto> findByTheaterPlayName(@Valid @RequestParam(name = "theaterPlayName") String theaterPlayName)
-    {
+    public ResponseEntity<TheaterPlayDto> findByTheaterPlayName(@Valid @RequestParam(name = "theaterPlayName") String theaterPlayName) {
         TheaterPlay theaterPlay = this.theaterPlayService.getByName(theaterPlayName);
         TheaterPlayDto dto = new TheaterPlayDto(theaterPlay);
         return ResponseEntity.status(HttpStatus.FOUND).body(dto);
     }
 
     @GetMapping("/city/{cityName}")
-    public ResponseEntity<TheaterPlayListDto> findByCityName(@Valid @PathVariable(value = "cityName") @NotNull String cityName){
+    public ResponseEntity<TheaterPlayListDto> findByCityName(@Valid @PathVariable(value = "cityName") String cityName){
         List<TheaterPlay> theaterListPlay = this.theaterPlayService.getByCityName(cityName);
         return ResponseEntity.status(HttpStatus.FOUND).body(TheaterPlayListDto.fromListTheaterPlay(theaterListPlay));
     }

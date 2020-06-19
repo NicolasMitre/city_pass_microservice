@@ -11,6 +11,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.avalith.city_pass.models.TheaterPlay;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -21,23 +23,23 @@ import java.time.LocalDate;
 public class TheaterPlayDto {
     private Integer id;
 
-    @NotNull
+    @NotBlank
     private String cityName;
 
-    @NotNull
+    @NotBlank
     private String theaterName;
 
-    @NotNull
+    @NotBlank
     private String name;
 
-    @NotNull
+    @Min(value = 1,message = "Minimum Value Should be 1")
     private Integer durationInMinutes;
 
-    @NotNull
+    @Min(value = 1,message = "Minimum Value Should be 1")
     private double price;
 
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate playDate;
