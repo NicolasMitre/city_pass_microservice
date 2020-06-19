@@ -29,7 +29,6 @@ public class UserController {
         List<User> list = this.userService.getAll();
         return (list.size() > 0) ? ResponseEntity.ok(UserListDto.fromListDto(list)) :
                 ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
     }
 
     @GetMapping("/{idUser}")
