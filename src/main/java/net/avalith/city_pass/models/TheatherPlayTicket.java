@@ -33,7 +33,7 @@ public class TheatherPlayTicket extends Ticket{
 
     @ManyToOne
     @JoinColumn(name = "theather_play_id")
-    private TheatherPlay theatherPlay;
+    private TheaterPlay theatherPlay;
 
     @NotNull
     @Column(unique = true)
