@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -118,7 +119,7 @@ public class UserControllerTest {
 
 
     @Test
-    public void updateUserVoid() {
+    public void updateUser() {
         Integer id = 1;
         List<String> roleList = setRole().stream()
                 .map(role -> role.getName())
@@ -137,5 +138,11 @@ public class UserControllerTest {
         ResponseEntity<UserDto> responseEntity = this.userController.updateUser(id,dto);
         Assert.assertEquals(HttpStatus.ACCEPTED,responseEntity.getStatusCode());
     }
+
+    @Test(expected = MethodArgumentNotValidException.class)
+    public void updateUserVoid(){
+
+    }
+
 }
 
