@@ -71,7 +71,6 @@ public class TheaterPlayService {
     }
 
     public List<TheaterPlay> getByCityName(String cityName) {
-        return this.theaterPlayRepository.findByCityNameAndIsActive(cityName,Boolean.TRUE)
-                .orElseThrow(TheaterPlayNotFoundException::new);
+        return this.theaterPlayRepository.findByCityNameAndIsActive(cityName,Boolean.TRUE);
     }
 }
