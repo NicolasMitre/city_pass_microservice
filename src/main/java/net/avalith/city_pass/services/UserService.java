@@ -50,10 +50,9 @@ public class UserService {
 }
 
     public User updateUser(Integer idUser, UserDto userDto) {
-        return this.userRepository.findByIdAndIsActive(idUser, Boolean.TRUE)
-                .map(user -> update(user,userDto))
-                        .map(user -> this.userRepository.save(user))
-                        .orElseThrow(UserNotFoundException::new);
+        User user = getById(idUser);
+        user = update(user,userDto);
+        return this.userRepository.save(user);
     }
 
     public User logicDelete(Integer id) {
