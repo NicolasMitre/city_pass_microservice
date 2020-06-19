@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    @NotNull
     private Integer id;
 
     @NotBlank(message = "username is mandatory")
