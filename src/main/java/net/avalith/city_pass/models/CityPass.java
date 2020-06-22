@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 
 @Data
@@ -20,7 +21,10 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "city_pass")
+@Table(name="city_pass",
+        uniqueConstraints = @UniqueConstraint(name = "name", columnNames= { "name" } )
+)
+
 public class CityPass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +32,7 @@ public class CityPass {
     private Integer id;
 
     @NotNull
+    @Column(name = "name")
     private String name;
 
     @NotNull
