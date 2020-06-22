@@ -31,7 +31,7 @@ public class RoleServiceTest {
     }
 
     @Test
-    public void getAllRoleOkContent() {
+    public void getAllRoleSuccessfully() {
         Role role = new Role(1, "Administrador");
         List<Role> list = new ArrayList<>();
         list.add(role);
@@ -66,7 +66,7 @@ public class RoleServiceTest {
     }
 
     @Test(expected = RoleNotFoundException.class)
-    public void getByName() {
+    public void getByNameSuccessfully() {
         String dto = "Administrator";
 
         when(roleRepository.findByName(dto)).thenReturn(Optional.ofNullable(null));
