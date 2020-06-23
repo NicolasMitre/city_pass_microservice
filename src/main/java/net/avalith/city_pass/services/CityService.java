@@ -32,7 +32,7 @@ public class CityService {
         try {
             city = cityRepository.save(city);
         } catch (DataIntegrityViolationException e) {
-            throw new CityNameAlreadyUsedException(CITY_NAME_ALREADY_USED_MESSAGE);
+            throw new CityNameAlreadyUsedException();
         }
         return city;
     }
@@ -57,7 +57,7 @@ public class CityService {
         try {
             city = cityRepository.save(city);
         } catch (DataIntegrityViolationException e) {
-            throw new CityNameAlreadyUsedException(CITY_NAME_ALREADY_USED_MESSAGE);
+            throw new CityNameAlreadyUsedException();
         }
         return city;
     }
