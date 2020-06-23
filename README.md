@@ -27,18 +27,8 @@ _These instructions will allow you to obtain a copy of the running project on yo
 | --------------------- | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `/city_pass/`        | GET | Get a list of all city passes                                          |
 | `/city_pass/{idCityPass}`           | GET | Receive by parameters an ID and return the corresponding city pass |
-| `/city_pass/`          | POST | Receive by body an object `{
-"name": String,
-"description": String,
-"days": Integer,
-"price": Double
-}` and create a new city_pass                                                                                                                                              |
-| `/city_pass/{idCityPass}`      | PUT | Receive by body an object `{
-"name": String,
-"description": String,
-"days": Integer,
-"price": Double
-}` and the city_pass ID that you want to modify and update it                                                                                                         |
+| `/city_pass/`          | POST | Receive by body an object `{"name": String, "description": String, "days": Integer, "price": Double}` and create a new city_pass                                                                                                                                              |
+| `/city_pass/{idCityPass}`      | PUT | Receive by body an object `{"name": String, "description": String, "days": Integer, "price": Double}` and the city_pass ID that you want to modify and update it                                                                                                         |
 | `/city_pass/{idCityPass}` | DELETE  | It receives a parameter ID and performs a logical deletion of this city_pass.                                                                                                                   |
 
 ## Test ⚙️
