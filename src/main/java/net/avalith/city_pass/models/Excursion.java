@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.avalith.city_pass.dto.ExcursionDto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,4 +48,14 @@ public class Excursion {
     @NotNull
     @Builder.Default
     private Boolean isActive = Boolean.TRUE;
+
+    public Excursion update(ExcursionDto excursionDto, City city){
+        return Excursion.builder()
+                .city(city)
+                .name(excursionDto.getName())
+                .durationInMinutes(excursionDto.getDurationInMinutes())
+                .price(excursionDto.getPrice())
+                .description(excursionDto.getDescription())
+                .build();
+    }
 }

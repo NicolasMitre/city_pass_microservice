@@ -7,16 +7,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ExcursionRepository extends JpaRepository<Excursion,Integer> {
-    Excursion findByIdAndIsActive(Integer idExcursion, Boolean value);
+    Optional<Excursion> findByIdAndIsActive(Integer idExcursion, Boolean value);
 
-    @Query(value = "SELECT * from excursion where is_active = :status", nativeQuery = true)
-    List<Excursion> findAllByStatus(@Param("status") Boolean status);
+    Optional<Excursion> findByNameAndIsActive(String name, Boolean status);
 
-    @Query(value = "from Excursion e where e.city.name = ?1 and is_active = ?2")
+    List<Excursion> findAllByIsActive(Boolean status);
+
+    @Query(value = "Select e from Excursion e where e.city.name = ?1 and is_active = ?2")
     List<Excursion> findByCityNameAndStatus(String cityName, Boolean status);
-
-    Excursion findByNameAndIsActive(String name, Boolean status);
 }

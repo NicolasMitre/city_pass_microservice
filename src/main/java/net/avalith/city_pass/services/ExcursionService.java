@@ -18,8 +18,7 @@ public class ExcursionService {
     private final CityService cityService;
 
     public List<Excursion> getAllActiveExcursions() {
-        List<Excursion> list = excursionRepository.findAllByStatus(Boolean.TRUE);
-        return list;
+        return excursionRepository.findAllByIsActive(Boolean.TRUE);
     }
 
     public List<Excursion> getAllActiveExcursionsByCity(String cityName) {
@@ -29,22 +28,18 @@ public class ExcursionService {
     }
 
     public Excursion getById(Integer idExcursion) throws ExcursionNotFoundException {
-        Excursion excursion = excursionRepository.findByIdAndIsActive(idExcursion,Boolean.TRUE);
-
-        return Optional.ofNullable(excursion).orElseThrow(ExcursionNotFoundException::new);
+        return excursionRepository.findByIdAndIsActive(idExcursion,Boolean.TRUE)
+                .orElseThrow(ExcursionNotFoundException::new);
     }
 
     public Excursion getByNameActive(String excursionName) throws ExcursionNotFoundException {
-        Excursion excursion = getByName(excursionName,Boolean.TRUE);
-
-        return Optional.ofNullable(excursion).orElseThrow(ExcursionNotFoundException::new);
+        return excursionRepository.findByNameAndIsActive(excursionName,Boolean.TRUE)
+                .orElseThrow(ExcursionNotFoundException::new);
     }
 
-
     public Excursion deleteExcursion(Integer idExcursion) throws ExcursionNotFoundException {
-        Excursion excursion = excursionRepository.findByIdAndIsActive(idExcursion, true);
-
-        Optional.ofNullable(excursion).orElseThrow(ExcursionNotFoundException::new);
+        Excursion excursion = excursionRepository.findByIdAndIsActive(idExcursion, Boolean.TRUE)
+                .orElseThrow(ExcursionNotFoundException::new);
 
         excursion.setIsActive(Boolean.FALSE);
         return excursionRepository.save(excursion);
@@ -52,32 +47,23 @@ public class ExcursionService {
 
 
     public Excursion updateExcursion(Integer idExcursion, ExcursionDto excursionDto) throws ExcursionNotFoundException {
-        Excursion excursion = excursionRepository.findByIdAndIsActive(idExcursion,Boolean.TRUE);
-
-        Optional.ofNullable(excursion).orElseThrow(ExcursionNotFoundException::new);
+        Excursion excursion = excursionRepository.findByIdAndIsActive(idExcursion,Boolean.TRUE)
+                .orElseThrow(ExcursionNotFoundException::new);
 
         City city = cityService.getByName(excursionDto.getCityName());
+        excursion = excursion.update(excursionDto,city);
 
-        update(excursion,excursionDto,city);
+        return excursionRepository.save(excursion);
 
-        excursion = excursionRepository.save(excursion);
-
-        return excursion;
     }
 
-    private Excursion update(Excursion excursion,ExcursionDto excursionDto,City city){
-        excursion.setName(excursionDto.getName());
-        excursion.setCity(city);
-        excursion.setDurationInMinutes(excursionDto.getDurationInMinutes());
-        excursion.setPrice(excursionDto.getPrice());
-        excursion.setDescription(excursionDto.getDescription());
-        return excursion;
-    }
 
-    public Excursion createExcursion(ExcursionDto excursionDto) {
+    public Excursion createExcursion(ExcursionDto excursionDto) throws ExcursionNotFoundException {
         City city = cityService.getByName(excursionDto.getCityName());
 
-        Excursion excursion = getByName(excursionDto.getName(),Boolean.FALSE);
+        Excursion excursion = excursionRepository.findByNameAndIsActive(excursionDto.getName(), Boolean.FALSE)
+                .orElseThrow(ExcursionNotFoundException::new);
+       // optEx.
 
         if(excursion == null){
             excursion = Excursion.builder()
@@ -89,13 +75,10 @@ public class ExcursionService {
                     .build();
         } else{
             excursion.setIsActive(true);
-            update(excursion,excursionDto,city);
+            excursion = excursion.update(excursionDto,city);
         }
         return excursionRepository.save(excursion);
     }
 
-    private Excursion getByName(String name,Boolean status){
-        return excursionRepository.findByNameAndIsActive(name,status);
-    }
 
 }
