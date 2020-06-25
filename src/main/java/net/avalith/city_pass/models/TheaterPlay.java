@@ -1,6 +1,5 @@
 package net.avalith.city_pass.models;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,13 +13,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Data
 @Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class TheaterPlay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +34,9 @@ public class TheaterPlay {
     private City city;
 
     @NotNull
+    private String theaterName;
+
+    @NotNull
     private String name;
 
     @NotNull
@@ -43,5 +46,12 @@ public class TheaterPlay {
     private Double price;
 
     @NotNull
+    private LocalDate playDate;
+
+    @NotNull
     private String description;
+
+    @Builder.Default
+    @NotNull
+    private Boolean isActive = Boolean.TRUE;
 }
