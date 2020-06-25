@@ -2,10 +2,12 @@ package net.avalith.city_pass.services;
 
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.ExcursionDto;
+import net.avalith.city_pass.exceptions.ExcursionNameAlreadyUsedException;
 import net.avalith.city_pass.exceptions.ExcursionNotFoundException;
 import net.avalith.city_pass.models.City;
 import net.avalith.city_pass.models.Excursion;
 import net.avalith.city_pass.repositories.ExcursionRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,27 +47,27 @@ public class ExcursionService {
         return excursionRepository.save(excursion);
     }
 
-
-    public Excursion updateExcursion(Integer idExcursion, ExcursionDto excursionDto) throws ExcursionNotFoundException {
+    public Excursion updateExcursion(Integer idExcursion, ExcursionDto excursionDto) throws ExcursionNotFoundException, ExcursionNameAlreadyUsedException {
         Excursion excursion = excursionRepository.findByIdAndIsActive(idExcursion,Boolean.TRUE)
                 .orElseThrow(ExcursionNotFoundException::new);
 
         City city = cityService.getByName(excursionDto.getCityName());
         excursion = excursion.update(excursionDto,city);
 
-        return excursionRepository.save(excursion);
-
+        try {
+            excursion = excursionRepository.save(excursion);
+        } catch (DataIntegrityViolationException e){
+            throw new ExcursionNameAlreadyUsedException();
+        }
+        return excursion;
     }
 
-
-    public Excursion createExcursion(ExcursionDto excursionDto) throws ExcursionNotFoundException {
+    public Excursion createExcursion(ExcursionDto excursionDto) throws ExcursionNameAlreadyUsedException {
         City city = cityService.getByName(excursionDto.getCityName());
+        Excursion excursion = null;
+        Optional<Excursion> optExcursion = excursionRepository.findByNameAndIsActive(excursionDto.getName(), Boolean.FALSE);
 
-        Excursion excursion = excursionRepository.findByNameAndIsActive(excursionDto.getName(), Boolean.FALSE)
-                .orElseThrow(ExcursionNotFoundException::new);
-       // optEx.
-
-        if(excursion == null){
+        if(!optExcursion.isPresent()){
             excursion = Excursion.builder()
                     .name(excursionDto.getName())
                     .description(excursionDto.getDescription())
@@ -74,11 +76,14 @@ public class ExcursionService {
                     .price(excursionDto.getPrice())
                     .build();
         } else{
-            excursion.setIsActive(true);
+            excursion.setIsActive(Boolean.TRUE);
             excursion = excursion.update(excursionDto,city);
         }
-        return excursionRepository.save(excursion);
+        try {
+            excursion = excursionRepository.save(excursion);
+        } catch (DataIntegrityViolationException e){
+            throw new ExcursionNameAlreadyUsedException();
+        }
+        return excursion;
     }
-
-
 }

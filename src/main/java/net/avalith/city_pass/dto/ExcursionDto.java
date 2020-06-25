@@ -8,28 +8,30 @@ import net.avalith.city_pass.models.Excursion;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExcursionDto {
-
     private Integer id;
 
-    @NotBlank
+    @NotBlank(message = "City name is mandatory")
     private String cityName;
 
-    @NotBlank
+    @NotBlank(message = "Excursion name is mandatory")
     private String name;
 
-    @Min(0)
+    @NotNull
+    @Min(value = 0,message = "Minutes must be a positve number")
     private Integer durationInMinutes;
 
-    @Min(0)
+    @NotNull
+    @Min(value = 0,message = "Price must be a positve number")
     private Double price;
 
-    @NotBlank
+    @NotBlank(message = "Description is mandatory")
     private String description;
 
     public static ExcursionDto fromExcursion(Excursion excursion){

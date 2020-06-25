@@ -3,6 +3,7 @@ package net.avalith.city_pass.controllers;
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.ExcursionDto;
 import net.avalith.city_pass.dto.ListExcursionDto;
+import net.avalith.city_pass.exceptions.ExcursionNameAlreadyUsedException;
 import net.avalith.city_pass.exceptions.ExcursionNotFoundException;
 import net.avalith.city_pass.models.Excursion;
 import net.avalith.city_pass.services.ExcursionService;
@@ -54,14 +55,14 @@ public class ExcursionController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ExcursionDto> createExcursion(@Valid @RequestBody ExcursionDto ExcursionDto ){
+    public ResponseEntity<ExcursionDto> createExcursion(@Valid @RequestBody ExcursionDto ExcursionDto ) throws ExcursionNameAlreadyUsedException {
         Excursion excursion = excursionService.createExcursion(ExcursionDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(ExcursionDto.fromExcursion(excursion));
     }
 
     @PutMapping("/{idExcursion}")
     public ResponseEntity<ExcursionDto> updateExcursion(@PathVariable(name = "idExcursion")Integer idExcursion,
-                                                        @Valid @RequestBody ExcursionDto ExcursionDto) throws ExcursionNotFoundException {
+                                                        @Valid @RequestBody ExcursionDto ExcursionDto) throws ExcursionNotFoundException, ExcursionNameAlreadyUsedException {
 
         ExcursionDto excursionDto = ExcursionDto.fromExcursion(excursionService.updateExcursion(idExcursion,ExcursionDto));
         return ResponseEntity.ok(excursionDto);
