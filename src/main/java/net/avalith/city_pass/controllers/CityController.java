@@ -3,6 +3,7 @@ package net.avalith.city_pass.controllers;
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.CityDto;
 import net.avalith.city_pass.dto.ListCityDto;
+import net.avalith.city_pass.exceptions.CityNameAlreadyUsedException;
 import net.avalith.city_pass.models.City;
 import net.avalith.city_pass.services.CityService;
 import org.springframework.http.HttpStatus;
@@ -47,13 +48,13 @@ public class CityController {
     }
 
     @PostMapping("")
-    public ResponseEntity<CityDto> createCity(@Valid @RequestBody CityDto cityDto ){
+    public ResponseEntity<CityDto> createCity(@Valid @RequestBody CityDto cityDto ) throws CityNameAlreadyUsedException {
         City city = cityService.createCity(cityDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(CityDto.fromCity(city));
     }
 
     @PutMapping("/{idCity}")
-    public ResponseEntity<CityDto> updateCity(@PathVariable(name = "idCity")Integer idCity, @Valid @RequestBody CityDto cityDto){
+    public ResponseEntity<CityDto> updateCity(@PathVariable(name = "idCity")Integer idCity, @Valid @RequestBody CityDto cityDto) throws CityNameAlreadyUsedException {
         City city = cityService.updateCity(idCity,cityDto);
         return ResponseEntity.ok(CityDto.fromCity(city));
     }
