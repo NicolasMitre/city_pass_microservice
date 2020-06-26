@@ -1,6 +1,5 @@
 package net.avalith.city_pass.services;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.CityDto;
 import net.avalith.city_pass.exceptions.CityNameAlreadyUsedException;
@@ -11,9 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-
-import static net.avalith.city_pass.utils.Constants.CITY_NAME_ALREADY_USED_MESSAGE;
 
 @Service
 @RequiredArgsConstructor
@@ -37,17 +33,13 @@ public class CityService {
         return city;
     }
 
-    private City getByName(String cityName) {
-        return cityRepository.findByName(cityName);
+    public City getByName(String cityName) {
+        return cityRepository.findByNameAndIsActive(cityName, Boolean.TRUE)
+                .orElseThrow(CityNotFoundException::new);
     }
 
     public City getById(Integer idCity) {
         return cityRepository.findByIdAndIsActive(idCity, Boolean.TRUE)
-                .orElseThrow(CityNotFoundException::new);
-    }
-
-    public City getByNameAndIsActive(String cityName) {
-        return cityRepository.findByNameAndIsActive(cityName, Boolean.TRUE)
                 .orElseThrow(CityNotFoundException::new);
     }
 

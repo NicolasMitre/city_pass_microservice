@@ -70,7 +70,7 @@ public class CityControllerTest {
                 .isActive(Boolean.TRUE)
                 .build();
 
-        when(cityService.getByNameAndIsActive(cityName)).thenReturn(city);
+        when(cityService.getByName(cityName)).thenReturn(city);
 
         ResponseEntity<CityDto> test = cityController.getCityByName(cityName);
         assertEquals(HttpStatus.OK,test.getStatusCode());
@@ -80,7 +80,7 @@ public class CityControllerTest {
     @Test(expected = CityNotFoundException.class)
     public void callGetCityByNameNotFound(){
         String cityName = "nombre";
-        when(cityService.getByNameAndIsActive(cityName)).thenThrow(new CityNotFoundException());
+        when(cityService.getByName(cityName)).thenThrow(new CityNotFoundException());
 
         cityController.getCityByName(cityName);
     }

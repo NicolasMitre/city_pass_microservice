@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class CityController {
 
     @GetMapping(value = "", params="cityName")
     public ResponseEntity<CityDto> getCityByName(@RequestParam(value = "cityName") String cityName){
-        City city = cityService.getByNameAndIsActive(cityName);
+        City city = cityService.getByName(cityName);
         return ResponseEntity.ok(CityDto.fromCity(city));
     }
 

@@ -36,7 +36,7 @@ public class CityServiceTest {
     public void callGetByNameWithAnInvalidName() {
         String name = "test";
         when(cityRepository.findByNameAndIsActive(name, Boolean.TRUE)).thenReturn(Optional.ofNullable(null));
-        cityService.getByNameAndIsActive(name);
+        cityService.getByName(name);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class CityServiceTest {
                 .build();
 
         when(cityRepository.findByNameAndIsActive(name, Boolean.TRUE)).thenReturn(Optional.ofNullable(city));
-        City returnedCity = cityService.getByNameAndIsActive(name);
+        City returnedCity = cityService.getByName(name);
 
         assertEquals(name, returnedCity.getName());
         assertEquals(Boolean.TRUE, returnedCity.getIsActive());

@@ -15,5 +15,5 @@ public interface CityRepository extends JpaRepository<City,Integer> {
 
     Optional<City> findByNameAndIsActive(String cityName, Boolean aTrue);
 
-    City findByName(String cityName);
+    Optional<City> findByName(String cityName);
 }
