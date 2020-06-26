@@ -22,7 +22,7 @@ import javax.persistence.UniqueConstraint;
 @EqualsAndHashCode(callSuper=true)
 @Table(uniqueConstraints =
         @UniqueConstraint(columnNames = {"product_id"}))
-public class TheatherPlayTicket extends Ticket{
+public class TheaterPlayTicket extends Ticket{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
@@ -32,8 +32,8 @@ public class TheatherPlayTicket extends Ticket{
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "theather_play_id")
-    private TheatherPlay theatherPlay;
+    @JoinColumn(name = "theater_play_id")
+    private TheaterPlay theaterPlay;
 
     @NotNull
     @Column(unique = true)
