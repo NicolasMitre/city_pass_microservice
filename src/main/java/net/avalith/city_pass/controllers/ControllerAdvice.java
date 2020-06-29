@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import static net.avalith.city_pass.utils.Constants.CITY_NOT_FOUND_MESSAGE;
 import static net.avalith.city_pass.utils.Constants.CITY_PASS_NOT_FOUND_MESSAGE;
-import static net.avalith.city_pass.utils.Constants.EXCURSINO_NOT_FOUND_MESSAGE;
+import static net.avalith.city_pass.utils.Constants.EXCURSION_NOT_FOUND_MESSAGE;
 import static net.avalith.city_pass.utils.Constants.ROLE_NOT_FOUND_MESSAGE;
 import static net.avalith.city_pass.utils.Constants.THEATERPLAY_NOT_FOUND_MESSAGE;
 import static net.avalith.city_pass.utils.Constants.USER_NOT_FOUND_MESSAGE;
@@ -56,7 +56,7 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ExcursionNotFoundException.class)
     public ErrorResponseDto handleLoginException(ExcursionNotFoundException exc) {
-        return new ErrorResponseDto(1, EXCURSINO_NOT_FOUND_MESSAGE);
+        return new ErrorResponseDto(1, EXCURSION_NOT_FOUND_MESSAGE);
     }
 
 
