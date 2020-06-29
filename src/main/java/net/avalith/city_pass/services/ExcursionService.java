@@ -76,6 +76,7 @@ public class ExcursionService {
                     .price(excursionDto.getPrice())
                     .build();
         } else{
+            excursion = optExcursion.get();
             excursion.setIsActive(Boolean.TRUE);
             excursion = excursion.update(excursionDto,city);
         }

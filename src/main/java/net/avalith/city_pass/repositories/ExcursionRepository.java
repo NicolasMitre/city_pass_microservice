@@ -3,7 +3,6 @@ package net.avalith.city_pass.repositories;
 import net.avalith.city_pass.models.Excursion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
