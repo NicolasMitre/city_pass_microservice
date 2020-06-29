@@ -44,7 +44,7 @@ Use [GITLAB](https://gitlab.com) for versioned.
 
 ## Authors ✒️
 
-- **Mariela Campagnoli** - _Develop backend, PM_ - (https://github.com/MaruCagnoli)
+- **Mariela Cagnoli** - _Develop backend, PM, TL, PO, Asadora Profesional_ - (https://github.com/MaruCagnoli)
 - **Nicolás Melluso** - _Develop backend_ - (https://github.com/NicolasMitre) or (https://gitlab.com/NicolasMitre)
 - **Federico Anastasi** - _Develop backend_ - (https://github.com/rakanishu37)
 - **Mauro Castillo Rondinara** - _Develop backend_ - (https://github.com/maurocastillorondinara)
