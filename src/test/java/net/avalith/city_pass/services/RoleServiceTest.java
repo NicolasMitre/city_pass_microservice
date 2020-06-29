@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,9 +33,7 @@ public class RoleServiceTest {
 
     @Test
     public void getAllRoleSuccessfully() {
-        Role role = new Role(1, "Administrador");
-        List<Role> list = new ArrayList<>();
-        list.add(role);
+        List<Role> list = Arrays.asList(new Role(1, "Administrador"));
         when(roleRepository.findAll()).thenReturn(list);
         List<Role> listRoleTest = roleService.getAllRole();
         assertEquals(1, listRoleTest.size());
@@ -61,7 +60,7 @@ public class RoleServiceTest {
 
     @Test(expected = RoleNotFoundException.class)
     public void getByIdExpectedAnExpection() {
-        when(roleRepository.findById(1)).thenReturn(Optional.ofNullable(null));
+        when(roleRepository.findById(1)).thenReturn(Optional.empty());
         roleService.getById(1);
     }
 
@@ -69,7 +68,7 @@ public class RoleServiceTest {
     public void getByNameSuccessfully() {
         String dto = "Administrator";
 
-        when(roleRepository.findByName(dto)).thenReturn(Optional.ofNullable(null));
+        when(roleRepository.findByName(dto)).thenReturn(Optional.empty());
         roleService.getByName(dto);
     }
 }
