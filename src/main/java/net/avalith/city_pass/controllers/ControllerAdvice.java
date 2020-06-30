@@ -1,6 +1,7 @@
 package net.avalith.city_pass.controllers;
 
 import net.avalith.city_pass.dto.ErrorResponseDto;
+import net.avalith.city_pass.exceptions.BrokenConstraintException;
 import net.avalith.city_pass.exceptions.CityNotFoundException;
 import net.avalith.city_pass.exceptions.CityPassNotFoundException;
 import net.avalith.city_pass.exceptions.ExcursionNotFoundException;
@@ -25,13 +26,13 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(CityNotFoundException.class)
-    public ErrorResponseDto handleLoginException(CityNotFoundException exc) {
+    public ErrorResponseDto handleCityNotFoundException(CityNotFoundException exc) {
         return new ErrorResponseDto(1, CITY_NOT_FOUND_MESSAGE);
     }
   
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(RoleNotFoundException.class)
-    public ErrorResponseDto handleLoginException(RoleNotFoundException exc) {
+    public ErrorResponseDto handleRoleNotFoundException(RoleNotFoundException exc) {
         return new ErrorResponseDto(1, ROLE_NOT_FOUND_MESSAGE);
     }
   
@@ -43,21 +44,25 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
   
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserNotFoundException.class)
-    public ErrorResponseDto handleLoginException(UserNotFoundException exc) {
+    public ErrorResponseDto handleUserNotFoundException(UserNotFoundException exc) {
         return new ErrorResponseDto(1, USER_NOT_FOUND_MESSAGE);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(CityPassNotFoundException.class)
-    public ErrorResponseDto handleLoginException(CityPassNotFoundException exc) {
+    public ErrorResponseDto handleCityPassNotFoundException(CityPassNotFoundException exc) {
         return new ErrorResponseDto(1, CITY_PASS_NOT_FOUND_MESSAGE);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ExcursionNotFoundException.class)
-    public ErrorResponseDto handleLoginException(ExcursionNotFoundException exc) {
+    public ErrorResponseDto handleExcursionNotFoundException(ExcursionNotFoundException exc) {
         return new ErrorResponseDto(1, EXCURSION_NOT_FOUND_MESSAGE);
     }
 
-
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(BrokenConstraintException.class)
+    public ErrorResponseDto handleBrokenConstraintException(BrokenConstraintException exc) {
+        return new ErrorResponseDto(2, exc.getMessage());
+    }
 }
