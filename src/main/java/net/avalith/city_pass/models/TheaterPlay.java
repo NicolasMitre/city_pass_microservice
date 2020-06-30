@@ -30,7 +30,7 @@ public class TheaterPlay {
     private final Integer CAPACITY = 100;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cities_id")
+    @JoinColumn(name = "id_city")
     private City city;
 
     @NotNull

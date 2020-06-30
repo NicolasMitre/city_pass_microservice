@@ -51,11 +51,13 @@ public class Excursion {
 
     public Excursion update(ExcursionDto excursionDto, City city){
         return Excursion.builder()
+                .id(this.id)
                 .city(city)
                 .name(excursionDto.getName())
                 .durationInMinutes(excursionDto.getDurationInMinutes())
                 .price(excursionDto.getPrice())
                 .description(excursionDto.getDescription())
+                .isActive(this.isActive)
                 .build();
     }
 }
