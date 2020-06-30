@@ -1,8 +1,12 @@
 package net.avalith.city_pass.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,6 +21,8 @@ import java.util.List;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Purchase {
     @Id
@@ -30,7 +36,8 @@ public class Purchase {
     private Double totalPrice;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase")
-    private List<Product> list;
+    @JsonManagedReference
+    private List<Ticket> list;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

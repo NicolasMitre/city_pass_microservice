@@ -1,8 +1,10 @@
 package net.avalith.city_pass.models;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
@@ -13,26 +15,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Data
 @SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper=true)
-@Table(uniqueConstraints =
-        @UniqueConstraint(columnNames = {"product_id"}))
+@PrimaryKeyJoinColumn(name="id_ticket")
 public class TheaterPlayTicket extends Ticket{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
-    private Integer id;
+    @NotNull
+    private Integer quantity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @NotNull
+    private Double subTotal;
 
     @ManyToOne
-    @JoinColumn(name = "theater_play_id")
+    @JoinColumn(name = "id_theater_play")
     private TheaterPlay theaterPlay;
 
     @NotNull
