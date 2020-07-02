@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,7 @@ public class Purchase {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
     private Integer id;
 
+    //@Temporal()
     @NotNull
     private Date purchaseDate;
 
@@ -40,6 +42,6 @@ public class Purchase {
     private List<Ticket> list;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id_user")
     private User user;
 }
