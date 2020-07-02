@@ -19,8 +19,8 @@ public class ListCityDto {
     public static ListCityDto fromCityList(List<City> cityList){
         return ListCityDto.builder()
                 .cities(cityList.stream()
-                        .map(CityDto::fromCity)
-                        .collect(Collectors.toList()))
+                .map(CityDto::fromCity)
+                .collect(Collectors.toList()))
                 .build();
     }
 }
