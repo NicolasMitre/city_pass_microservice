@@ -19,8 +19,14 @@ public class ExcursionService {
     private final ExcursionRepository excursionRepository;
     private final CityService cityService;
 
-    public List<Excursion> getAllActiveExcursions() {
-        return excursionRepository.findAllByIsActive(Boolean.TRUE);
+    public List<Excursion> getAllExcursions(String cityName) {
+        Optional<String> optCityName = Optional.ofNullable(cityName);
+
+        if(optCityName.isPresent()) {
+            return getAllActiveExcursionsByCity(optCityName.get());
+        } else {
+            return excursionRepository.findAllByIsActive(Boolean.TRUE);
+        }
     }
 
     public List<Excursion> getAllActiveExcursionsByCity(String cityName) {

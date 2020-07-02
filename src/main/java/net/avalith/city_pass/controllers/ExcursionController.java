@@ -29,8 +29,8 @@ public class ExcursionController {
     private final ExcursionService excursionService;
 
     @GetMapping("/")
-    public ResponseEntity<ListExcursionDto> getAllExcursions(@RequestParam(required = false, value = "excursionName") String excursionName) throws ExcursionNotFoundException {
-        List<Excursion> list = excursionService.getAllActiveExcursions();
+    public ResponseEntity<ListExcursionDto> getAllExcursions(@RequestParam(required = false, value = "cityName")String cityName) {
+        List<Excursion> list = excursionService.getAllExcursions(cityName);
         return (list.size() > 0) ? ResponseEntity.ok(ListExcursionDto.fromExcursionsList(list))
                 : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -41,14 +41,8 @@ public class ExcursionController {
         return ResponseEntity.ok(ExcursionDto.fromExcursion(excursion));
     }
 
-    @GetMapping("")
-    public ResponseEntity<ListExcursionDto> getAllExcursionsByCity(@RequestParam(name = "cityName") String cityName) {
-        List<Excursion> list = excursionService.getAllActiveExcursionsByCity(cityName);
-        return (list.size() > 0) ? ResponseEntity.ok(ListExcursionDto.fromExcursionsList(list)) : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
     @GetMapping("/{idExcursion}")
-    public ResponseEntity<ExcursionDto> getExcursionById(@PathVariable(name = "idExcursion") Integer idExcursion) throws ExcursionNotFoundException {
+    public ResponseEntity<ExcursionDto> getExcursionById(@PathVariable(name = "idExcursion") Integer idExcursion) {
         Excursion excursion = excursionService.getById(idExcursion);
         return ResponseEntity.ok(ExcursionDto.fromExcursion(excursion));
     }
