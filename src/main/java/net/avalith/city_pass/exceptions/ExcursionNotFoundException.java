@@ -1,6 +1,6 @@
 package net.avalith.city_pass.exceptions;
 
-public class ExcursionNotFoundException extends Throwable {
+public class ExcursionNotFoundException extends RuntimeException {
     public ExcursionNotFoundException() {
         super();
     }
