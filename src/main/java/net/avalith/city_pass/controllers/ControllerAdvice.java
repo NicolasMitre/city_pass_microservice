@@ -1,6 +1,6 @@
 package net.avalith.city_pass.controllers;
 
-import net.avalith.city_pass.dto.ErrorResponseDto;
+import net.avalith.city_pass.dto.response.ErrorResponseDto;
 import net.avalith.city_pass.exceptions.BrokenConstraintException;
 import net.avalith.city_pass.exceptions.CityNotFoundException;
 import net.avalith.city_pass.exceptions.CityPassNotFoundException;

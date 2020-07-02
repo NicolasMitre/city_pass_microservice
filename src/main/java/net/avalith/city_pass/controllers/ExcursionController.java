@@ -2,7 +2,7 @@ package net.avalith.city_pass.controllers;
 
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.ExcursionDto;
-import net.avalith.city_pass.dto.ListExcursionDto;
+import net.avalith.city_pass.dto.response.ListExcursionDto;
 import net.avalith.city_pass.exceptions.ExcursionNameAlreadyUsedException;
 import net.avalith.city_pass.exceptions.ExcursionNotFoundException;
 import net.avalith.city_pass.models.Excursion;

@@ -2,9 +2,7 @@ package net.avalith.city_pass.controller;
 
 
 import net.avalith.city_pass.controllers.RoleController;
-import net.avalith.city_pass.dto.ListCityPassDto;
 import net.avalith.city_pass.dto.RoleDto;
-import net.avalith.city_pass.models.CityPass;
 import net.avalith.city_pass.models.Role;
 import net.avalith.city_pass.services.RoleService;
 import org.junit.Assert;
@@ -14,12 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 

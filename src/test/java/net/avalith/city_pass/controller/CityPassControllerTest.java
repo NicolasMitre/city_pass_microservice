@@ -2,7 +2,7 @@ package net.avalith.city_pass.controller;
 
 import net.avalith.city_pass.controllers.CityPassController;
 import net.avalith.city_pass.dto.CityPassDto;
-import net.avalith.city_pass.dto.ListCityPassDto;
+import net.avalith.city_pass.dto.response.ListCityPassDto;
 import net.avalith.city_pass.models.CityPass;
 import net.avalith.city_pass.services.CityPassService;
 import org.junit.Assert;
