@@ -1,4 +1,4 @@
-package net.avalith.city_pass.dto;
+package net.avalith.city_pass.dto.response;
 
 
 import lombok.AllArgsConstructor;

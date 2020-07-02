@@ -1,9 +1,10 @@
-package net.avalith.city_pass.dto;
+package net.avalith.city_pass.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.avalith.city_pass.dto.CityPassDto;
 import net.avalith.city_pass.models.CityPass;
 
 import java.util.List;
