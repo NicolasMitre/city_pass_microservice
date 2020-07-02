@@ -34,7 +34,7 @@ public class TheaterPlayTicket extends Ticket{
     private Double subTotal;
 
     @ManyToOne
-    @JoinColumn(name = "id_theater_play")
+    @JoinColumn(name = "id_theaterplay")
     private TheaterPlay theaterPlay;
 
     @NotNull
