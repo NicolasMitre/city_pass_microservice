@@ -28,24 +28,23 @@ import java.util.List;
 public class ExcursionController {
     private final ExcursionService excursionService;
 
-    @GetMapping("")
-    public ResponseEntity<?> getAllExcursions(@RequestParam(required = false, value = "excursionName") String excursionName) throws ExcursionNotFoundException {
-        ResponseEntity responseEntity = null;
-        if(excursionName == null) {
-            List<Excursion> list = excursionService.getAllActiveExcursions();
-            responseEntity = (list.size() > 0)? ResponseEntity.ok(ListExcursionDto.fromExcursionsList(list))
-                    : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } else {
-            Excursion excursion = excursionService.getByNameActive(excursionName);
-            responseEntity = ResponseEntity.ok(ExcursionDto.fromExcursion(excursion));
-        }
-        return responseEntity;
+    @GetMapping("/")
+    public ResponseEntity<ListExcursionDto> getAllExcursions(@RequestParam(required = false, value = "excursionName") String excursionName) throws ExcursionNotFoundException {
+        List<Excursion> list = excursionService.getAllActiveExcursions();
+        return (list.size() > 0) ? ResponseEntity.ok(ListExcursionDto.fromExcursionsList(list))
+                : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping("/city")
-    public ResponseEntity<ListExcursionDto> getAllExcursionsByCity(@RequestParam(name = "name") String cityName){
+    @GetMapping("")
+    public ResponseEntity<ExcursionDto> getExcursionByName(@RequestParam(name = "name") String excursionName) {
+        Excursion excursion = excursionService.getByNameActive(excursionName);
+        return ResponseEntity.ok(ExcursionDto.fromExcursion(excursion));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<ListExcursionDto> getAllExcursionsByCity(@RequestParam(name = "cityName") String cityName) {
         List<Excursion> list = excursionService.getAllActiveExcursionsByCity(cityName);
-        return (list.size() >0 )? ResponseEntity.ok(ListExcursionDto.fromExcursionsList(list)) : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return (list.size() > 0) ? ResponseEntity.ok(ListExcursionDto.fromExcursionsList(list)) : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/{idExcursion}")
@@ -55,21 +54,24 @@ public class ExcursionController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ExcursionDto> createExcursion(@Valid @RequestBody ExcursionDto ExcursionDto ) throws ExcursionNameAlreadyUsedException {
+    public ResponseEntity<ExcursionDto> createExcursion(@Valid @RequestBody ExcursionDto ExcursionDto) throws
+            ExcursionNameAlreadyUsedException {
         Excursion excursion = excursionService.createExcursion(ExcursionDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(ExcursionDto.fromExcursion(excursion));
     }
 
     @PutMapping("/{idExcursion}")
-    public ResponseEntity<ExcursionDto> updateExcursion(@PathVariable(name = "idExcursion")Integer idExcursion,
-                                                        @Valid @RequestBody ExcursionDto ExcursionDto) throws ExcursionNotFoundException, ExcursionNameAlreadyUsedException {
+    public ResponseEntity<ExcursionDto> updateExcursion(@PathVariable(name = "idExcursion") Integer idExcursion,
+                                                        @Valid @RequestBody ExcursionDto ExcursionDto) throws
+            ExcursionNotFoundException, ExcursionNameAlreadyUsedException {
 
-        ExcursionDto excursionDto = ExcursionDto.fromExcursion(excursionService.updateExcursion(idExcursion,ExcursionDto));
+        ExcursionDto excursionDto = ExcursionDto.fromExcursion(excursionService.updateExcursion(idExcursion, ExcursionDto));
         return ResponseEntity.ok(excursionDto);
     }
 
     @DeleteMapping("/{idExcursion}")
-    public ResponseEntity<ExcursionDto> deleteExcursion(@PathVariable(name = "idExcursion")Integer idExcursion) throws ExcursionNotFoundException {
+    public ResponseEntity<ExcursionDto> deleteExcursion(@PathVariable(name = "idExcursion") Integer idExcursion) throws
+            ExcursionNotFoundException {
         ExcursionDto excursionDto = ExcursionDto.fromExcursion(excursionService.deleteExcursion(idExcursion));
         return ResponseEntity.ok(excursionDto);
     }

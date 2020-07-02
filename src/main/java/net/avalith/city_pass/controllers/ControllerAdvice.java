@@ -38,7 +38,7 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
   
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(TheaterPlayNotFoundException.class)
-    public ErrorResponseDto handleLoginException(TheaterPlayNotFoundException exc) {
+    public ErrorResponseDto handleTheaterPlayNotFoundException(TheaterPlayNotFoundException exc) {
         return new ErrorResponseDto(1, THEATERPLAY_NOT_FOUND_MESSAGE);
     }
   

@@ -26,16 +26,42 @@ public class ExcursionService {
     public List<Excursion> getAllActiveExcursionsByCity(String cityName) {
         City city = cityService.getByName(cityName);
 
-        return excursionRepository.findByCityNameAndStatus(city.getName(),Boolean.TRUE);
+        return excursionRepository.findByCityNameAndStatus(city.getName(), Boolean.TRUE);
+    }
+
+    public Excursion createExcursion(ExcursionDto excursionDto) throws ExcursionNameAlreadyUsedException {
+        City city = cityService.getByName(excursionDto.getCityName());
+        Excursion excursion = null;
+        Optional<Excursion> optExcursion = excursionRepository.findByNameAndIsActive(excursionDto.getName(), Boolean.FALSE);
+
+        if (!optExcursion.isPresent()) {
+            excursion = Excursion.builder()
+                    .name(excursionDto.getName())
+                    .description(excursionDto.getDescription())
+                    .city(city)
+                    .durationInMinutes(excursionDto.getDurationInMinutes())
+                    .price(excursionDto.getPrice())
+                    .build();
+        } else {
+            excursion = optExcursion.get();
+            excursion.setIsActive(Boolean.TRUE);
+            excursion = excursion.update(excursionDto, city);
+        }
+        try {
+            excursion = excursionRepository.save(excursion);
+        } catch (DataIntegrityViolationException e) {
+            throw new ExcursionNameAlreadyUsedException();
+        }
+        return excursion;
     }
 
     public Excursion getById(Integer idExcursion) throws ExcursionNotFoundException {
-        return excursionRepository.findByIdAndIsActive(idExcursion,Boolean.TRUE)
+        return excursionRepository.findByIdAndIsActive(idExcursion, Boolean.TRUE)
                 .orElseThrow(ExcursionNotFoundException::new);
     }
 
     public Excursion getByNameActive(String excursionName) throws ExcursionNotFoundException {
-        return excursionRepository.findByNameAndIsActive(excursionName,Boolean.TRUE)
+        return excursionRepository.findByNameAndIsActive(excursionName, Boolean.TRUE)
                 .orElseThrow(ExcursionNotFoundException::new);
     }
 
@@ -48,40 +74,15 @@ public class ExcursionService {
     }
 
     public Excursion updateExcursion(Integer idExcursion, ExcursionDto excursionDto) throws ExcursionNotFoundException, ExcursionNameAlreadyUsedException {
-        Excursion excursion = excursionRepository.findByIdAndIsActive(idExcursion,Boolean.TRUE)
+        Excursion excursion = excursionRepository.findByIdAndIsActive(idExcursion, Boolean.TRUE)
                 .orElseThrow(ExcursionNotFoundException::new);
 
         City city = cityService.getByName(excursionDto.getCityName());
-        excursion = excursion.update(excursionDto,city);
+        excursion = excursion.update(excursionDto, city);
 
         try {
             excursion = excursionRepository.save(excursion);
-        } catch (DataIntegrityViolationException e){
-            throw new ExcursionNameAlreadyUsedException();
-        }
-        return excursion;
-    }
-
-    public Excursion createExcursion(ExcursionDto excursionDto) throws ExcursionNameAlreadyUsedException {
-        City city = cityService.getByName(excursionDto.getCityName());
-        Excursion excursion = null;
-        Optional<Excursion> optExcursion = excursionRepository.findByNameAndIsActive(excursionDto.getName(), Boolean.FALSE);
-
-        if(!optExcursion.isPresent()){
-            excursion = Excursion.builder()
-                    .name(excursionDto.getName())
-                    .description(excursionDto.getDescription())
-                    .city(city)
-                    .durationInMinutes(excursionDto.getDurationInMinutes())
-                    .price(excursionDto.getPrice())
-                    .build();
-        } else{
-            excursion.setIsActive(Boolean.TRUE);
-            excursion = excursion.update(excursionDto,city);
-        }
-        try {
-            excursion = excursionRepository.save(excursion);
-        } catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new ExcursionNameAlreadyUsedException();
         }
         return excursion;
