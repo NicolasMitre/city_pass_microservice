@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,9 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-
-import java.util.Date;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -25,21 +25,22 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "purchases")
 public class Purchase {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_purchase")
+    private Integer idPurchase;
 
-    //@Temporal()
     @NotNull
-    private Date purchaseDate;
+    private LocalDateTime purchaseDate;
 
     @NotNull
     private Double totalPrice;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase")
     @JsonManagedReference
-    private List<Ticket> list;
+    private List<Ticket> productsBought;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
