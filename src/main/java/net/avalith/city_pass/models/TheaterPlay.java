@@ -25,7 +25,7 @@ public class TheaterPlay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_theaterplay")
-    private Integer id;
+    private Integer idTheaterPlay;
 
     private final Integer CAPACITY = 100;
 

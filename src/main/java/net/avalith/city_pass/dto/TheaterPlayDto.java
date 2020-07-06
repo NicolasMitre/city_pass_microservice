@@ -49,7 +49,7 @@ public class TheaterPlayDto {
 
     public TheaterPlayDto (TheaterPlay theaterPlay)
     {
-        this.id = theaterPlay.getId();
+        this.id = theaterPlay.getIdTheaterPlay();
         this.cityName = theaterPlay.getCity().getName();
         this.theaterName = theaterPlay.getTheaterName();
         this.name = theaterPlay.getName();

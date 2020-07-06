@@ -36,7 +36,7 @@ public class ExcursionDto {
 
     public static ExcursionDto fromExcursion(Excursion excursion){
         return ExcursionDto.builder()
-                .id(excursion.getId())
+                .id(excursion.getIdExcursion())
                 .name(excursion.getName())
                 .cityName(excursion.getCity().getName())
                 .description(excursion.getDescription())

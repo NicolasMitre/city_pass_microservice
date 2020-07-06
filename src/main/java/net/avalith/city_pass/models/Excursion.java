@@ -1,6 +1,5 @@
 package net.avalith.city_pass.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,8 +24,7 @@ import javax.persistence.ManyToOne;
 public class Excursion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
-    private Integer id;
+    private Integer idExcursion;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_city")
@@ -51,7 +49,7 @@ public class Excursion {
 
     public Excursion update(ExcursionDto excursionDto, City city){
         return Excursion.builder()
-                .id(this.id)
+                .idExcursion(this.idExcursion)
                 .city(city)
                 .name(excursionDto.getName())
                 .durationInMinutes(excursionDto.getDurationInMinutes())

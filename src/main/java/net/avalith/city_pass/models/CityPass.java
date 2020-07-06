@@ -32,7 +32,7 @@ public class CityPass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_city_pass")
-    private Integer id;
+    private Integer idCityPass;
 
     @NotNull
     @Column(name = "name")
@@ -57,7 +57,7 @@ public class CityPass {
 
     public CityPass update(CityPassDto cityPassDto, City city){
         return CityPass.builder()
-                .id(this.id)
+                .idCityPass(this.idCityPass)
                 .name(cityPassDto.getName())
                 .description(cityPassDto.getDescription())
                 .price(cityPassDto.getPrice())

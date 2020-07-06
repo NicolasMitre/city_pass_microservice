@@ -22,7 +22,7 @@ import javax.validation.constraints.NotBlank;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idRole;
 
     @NotBlank
     @Column(unique = true)
