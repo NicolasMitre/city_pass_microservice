@@ -6,18 +6,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import net.avalith.city_pass.models.enums.TicketType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Data
 @SuperBuilder
@@ -27,12 +22,6 @@ import javax.persistence.UniqueConstraint;
 @EqualsAndHashCode(callSuper=true)
 @PrimaryKeyJoinColumn(name="id_ticket")
 public class TheaterPlayTicket extends Ticket{
-    @NotNull
-    private Integer quantity;
-
-    @NotNull
-    private Double subTotal;
-
     @ManyToOne
     @JoinColumn(name = "id_theaterplay")
     private TheaterPlay theaterPlay;
@@ -40,4 +29,18 @@ public class TheaterPlayTicket extends Ticket{
     @NotNull
     @Column(unique = true)
     private String code;
+
+    public static TheaterPlayTicket createTheaterPlayTicket(TicketType ticketType, TheaterPlay theaterPlay, Integer quantity,
+                                                            Double subTotal, String code, Purchase purchase) {
+        return TheaterPlayTicket.builder()
+                .ticketType(ticketType)
+                .theaterPlay(theaterPlay)
+                .unitPrice(theaterPlay.getPrice())
+                .quantity(quantity)
+                .subTotal(subTotal)
+                .code(code)
+                .purchasedDate(purchase.getPurchaseDate())
+                .purchase(purchase)
+                .build();
+    }
 }
