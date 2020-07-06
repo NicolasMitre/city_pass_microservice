@@ -36,7 +36,7 @@ public class RoleControllerTest {
         List<Role> rolesList = new ArrayList<>();
 
         Role role = Role.builder()
-                .id(1)
+                .idRole(1)
                 .name("Jefe")
                 .build();
 
@@ -71,7 +71,7 @@ public class RoleControllerTest {
                 .build();
 
         Role role = Role.builder()
-                .id(1)
+                .idRole(1)
                 .name("user")
                 .build();
 
