@@ -28,17 +28,13 @@ import java.util.List;
 public class ExcursionController {
     private final ExcursionService excursionService;
 
-    @GetMapping("/")
-    public ResponseEntity<ListExcursionDto> getAllExcursions(@RequestParam(required = false, value = "cityName")String cityName) {
-        List<Excursion> list = excursionService.getAllExcursions(cityName);
-        return (list.size() > 0) ? ResponseEntity.ok(ListExcursionDto.fromExcursionsList(list))
-                : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 
     @GetMapping("")
-    public ResponseEntity<ExcursionDto> getExcursionByName(@RequestParam(name = "name") String excursionName) {
-        Excursion excursion = excursionService.getByNameActive(excursionName);
-        return ResponseEntity.ok(ExcursionDto.fromExcursion(excursion));
+    public ResponseEntity<ListExcursionDto> getExcursions(@RequestParam(required = false, name = "cityName")String cityName,
+                                                          @RequestParam(required = false,name = "name") String excursionName) {
+        List<Excursion> list = excursionService.getAllExcursions(cityName,excursionName);
+        return (list.size() > 0) ? ResponseEntity.ok(ListExcursionDto.fromExcursionsList(list))
+                : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/{idExcursion}")

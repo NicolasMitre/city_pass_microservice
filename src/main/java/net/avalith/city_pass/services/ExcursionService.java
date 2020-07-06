@@ -10,6 +10,7 @@ import net.avalith.city_pass.repositories.ExcursionRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,13 +20,18 @@ public class ExcursionService {
     private final ExcursionRepository excursionRepository;
     private final CityService cityService;
 
-    public List<Excursion> getAllExcursions(String cityName) {
+    public List<Excursion> getAllExcursions(String cityName, String excursionName) {
         Optional<String> optCityName = Optional.ofNullable(cityName);
+        Optional<String> optExcursionName = Optional.ofNullable(excursionName);
 
-        if(optCityName.isPresent()) {
+        if (optCityName.isPresent()) {
             return getAllActiveExcursionsByCity(optCityName.get());
         } else {
-            return excursionRepository.findAllByIsActive(Boolean.TRUE);
+            if (optExcursionName.isPresent()) {
+                return Arrays.asList(getByNameActive(excursionName));
+            } else {
+                return excursionRepository.findAllByIsActive(Boolean.TRUE);
+            }
         }
     }
 
@@ -62,7 +68,7 @@ public class ExcursionService {
     }
 
     public Excursion getById(Integer idExcursion) throws ExcursionNotFoundException {
-        return excursionRepository.findByIdAndIsActive(idExcursion, Boolean.TRUE)
+        return excursionRepository.findByIdExcursionAndIsActive(idExcursion, Boolean.TRUE)
                 .orElseThrow(ExcursionNotFoundException::new);
     }
 
@@ -72,7 +78,7 @@ public class ExcursionService {
     }
 
     public Excursion deleteExcursion(Integer idExcursion) throws ExcursionNotFoundException {
-        Excursion excursion = excursionRepository.findByIdAndIsActive(idExcursion, Boolean.TRUE)
+        Excursion excursion = excursionRepository.findByIdExcursionAndIsActive(idExcursion, Boolean.TRUE)
                 .orElseThrow(ExcursionNotFoundException::new);
 
         excursion.setIsActive(Boolean.FALSE);
@@ -80,7 +86,7 @@ public class ExcursionService {
     }
 
     public Excursion updateExcursion(Integer idExcursion, ExcursionDto excursionDto) throws ExcursionNotFoundException, ExcursionNameAlreadyUsedException {
-        Excursion excursion = excursionRepository.findByIdAndIsActive(idExcursion, Boolean.TRUE)
+        Excursion excursion = excursionRepository.findByIdExcursionAndIsActive(idExcursion, Boolean.TRUE)
                 .orElseThrow(ExcursionNotFoundException::new);
 
         City city = cityService.getByName(excursionDto.getCityName());
