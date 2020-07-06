@@ -42,14 +42,14 @@ public class CityPassService {
     }
 
     public CityPass getById(Integer idCityPass) {
-        return cityPassRepository.findByIdAndIsActive(idCityPass, true)
+        return cityPassRepository.findByIdCityPassAndIsActive(idCityPass, true)
                 .orElseThrow(CityPassNotFoundException::new);
     }
 
     public CityPass updateCityPass(Integer idCityPass, CityPassDto cityPassDto) {
         City city = cityService.getByName(cityPassDto.getCityName());
 
-        CityPass cityPass = cityPassRepository.findByIdAndIsActive(idCityPass, Boolean.TRUE)
+        CityPass cityPass = cityPassRepository.findByIdCityPassAndIsActive(idCityPass, Boolean.TRUE)
                 .orElseThrow(CityPassNotFoundException::new);
 
         try {
@@ -63,7 +63,7 @@ public class CityPassService {
     }
 
     public CityPass deleteCityPass(Integer idCityPass) {
-        CityPass cityPass = cityPassRepository.findByIdAndIsActive(idCityPass, true)
+        CityPass cityPass = cityPassRepository.findByIdCityPassAndIsActive(idCityPass, true)
                 .orElseThrow(CityPassNotFoundException::new);
         cityPass.setIsActive(Boolean.FALSE);
 
