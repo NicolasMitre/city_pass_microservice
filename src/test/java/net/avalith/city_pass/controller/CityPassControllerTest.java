@@ -2,7 +2,7 @@ package net.avalith.city_pass.controller;
 
 import net.avalith.city_pass.controllers.CityPassController;
 import net.avalith.city_pass.dto.CityPassDto;
-import net.avalith.city_pass.dto.ListCityPassDto;
+import net.avalith.city_pass.dto.response.ListCityPassDto;
 import net.avalith.city_pass.models.CityPass;
 import net.avalith.city_pass.services.CityPassService;
 import org.junit.Assert;
@@ -37,7 +37,7 @@ public class CityPassControllerTest {
         List<CityPass> cityPassList = new ArrayList<>();
 
         CityPass cityPass = CityPass.builder()
-                .id(1)
+                .idCityPass(1)
                 .name("Mar del plata + 60 excursiones")
                 .description("Mas de 280913213 excursiones disponibles")
                 .price(100d)
@@ -77,7 +77,7 @@ public class CityPassControllerTest {
                 .build();
 
         CityPass cityPass = CityPass.builder()
-                .id(1)
+                .idCityPass(1)
                 .name("Mar del plata + 60 excursiones")
                 .description("Mas de 280913213 excursiones disponibles")
                 .price(100d)
@@ -103,7 +103,7 @@ public class CityPassControllerTest {
                 .build();
 
         CityPass cityPass = CityPass.builder()
-                .id(1)
+                .idCityPass(1)
                 .name("Mar del plata + 80 excursiones")
                 .description("Mas de 280913213 excursiones disponibles")
                 .price(100d)
@@ -122,7 +122,7 @@ public class CityPassControllerTest {
     public void deleteAnCityPassSuccessfully() {
 
         CityPass cityPass = CityPass.builder()
-                .id(1)
+                .idCityPass(1)
                 .name("Mar del plata + 80 excursiones")
                 .description("Mas de 280913213 excursiones disponibles")
                 .price(100d)
@@ -134,7 +134,7 @@ public class CityPassControllerTest {
 
         ResponseEntity<CityPass> responseEntity = this.cityPassController.deleteCityPassById(1);
 
-        Assert.assertEquals(Integer.valueOf(1), responseEntity.getBody().getId());
+        Assert.assertEquals(Integer.valueOf(1), responseEntity.getBody().getIdCityPass());
         Assert.assertEquals(Boolean.FALSE, responseEntity.getBody().getIsActive());
         Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }

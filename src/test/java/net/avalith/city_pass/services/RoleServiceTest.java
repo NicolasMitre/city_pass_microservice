@@ -44,7 +44,7 @@ public class RoleServiceTest {
         RoleDto roleDto = new RoleDto("Administrator");
 
         Role savedRole = Role.builder()
-                .id(1)
+                .idRole(1)
                 .name(roleDto.getName())
                 .build();
 
@@ -55,7 +55,7 @@ public class RoleServiceTest {
         when(roleRepository.save(role)).thenReturn(savedRole);
         Role roleReturn = roleService.createRole(roleDto);
         assertEquals("Administrator", roleReturn.getName());
-        assertEquals(Integer.valueOf(1), roleReturn.getId());
+        assertEquals(Integer.valueOf(1), roleReturn.getIdRole());
     }
 
     @Test(expected = RoleNotFoundException.class)

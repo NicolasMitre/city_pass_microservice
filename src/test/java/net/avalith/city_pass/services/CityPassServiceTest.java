@@ -36,7 +36,7 @@ public class CityPassServiceTest {
 
     public void getOneCityPassUsingGetAll() {
         City city = City.builder()
-                .id(1)
+                .idCity(1)
                 .name("Mar del plata")
                 .isActive(Boolean.TRUE)
                 .build();
@@ -60,7 +60,7 @@ public class CityPassServiceTest {
     @Test
     public void createNewCityPassSuccessfully() {
         City city = City.builder()
-                .id(1)
+                .idCity(1)
                 .name("Mar del plata")
                 .isActive(Boolean.TRUE)
                 .build();
@@ -74,7 +74,7 @@ public class CityPassServiceTest {
                 .build();
 
         CityPass cityPassSaved = CityPass.builder()
-                .id(1)
+                .idCityPass(1)
                 .name("Pack de compras 1")
                 .description("Andate de compras")
                 .days(1)
@@ -98,7 +98,7 @@ public class CityPassServiceTest {
 
     @Test(expected = CityPassNotFoundException.class)
     public void getACityPassAndReturnAndException() {
-        when(cityPassRepository.findByIdAndIsActive(1, true))
+        when(cityPassRepository.findByIdCityPassAndIsActive(1, true))
                 .thenReturn(Optional.empty());
         cityPassService.getById(1);
     }
@@ -106,13 +106,13 @@ public class CityPassServiceTest {
     @Test
     public void getByIdSuccessfully() {
         City city = City.builder()
-                .id(1)
+                .idCity(1)
                 .name("Mar del plata")
                 .isActive(Boolean.TRUE)
                 .build();
 
         CityPass cityPassSaved = CityPass.builder()
-                .id(1)
+                .idCityPass(1)
                 .name("Proband0")
                 .description("Alveolos")
                 .days(1)
@@ -120,11 +120,11 @@ public class CityPassServiceTest {
                 .city(city)
                 .build();
 
-        when(cityPassRepository.findByIdAndIsActive(1, true))
+        when(cityPassRepository.findByIdCityPassAndIsActive(1, true))
                 .thenReturn(Optional.ofNullable(cityPassSaved));
 
         CityPass cityReturn = cityPassService.getById(1);
-        assertEquals(Integer.valueOf(1), cityReturn.getId());
+        assertEquals(Integer.valueOf(1), cityReturn.getIdCityPass());
         assertEquals("Proband0", cityReturn.getName());
         assertEquals("Alveolos", cityReturn.getDescription());
         assertEquals(Integer.valueOf(1), cityReturn.getDays());
@@ -141,14 +141,14 @@ public class CityPassServiceTest {
                 .cityName("Mar del plata")
                 .build();
 
-        when(cityPassRepository.findByIdAndIsActive(1, true))
+        when(cityPassRepository.findByIdCityPassAndIsActive(1, true))
                 .thenReturn(Optional.empty());
         cityPassService.updateCityPass(2, cityPassDto);
     }
 
     @Test(expected = CityPassNotFoundException.class)
     public void deleteCityPassWithInvalidIdAndThrowTheirException() {
-        when(cityPassRepository.findByIdAndIsActive(1, true))
+        when(cityPassRepository.findByIdCityPassAndIsActive(1, true))
                 .thenReturn(Optional.empty());
         cityPassService.deleteCityPass(2);
     }

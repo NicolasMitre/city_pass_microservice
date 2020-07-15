@@ -16,7 +16,7 @@ public class TheaterPlayService {
     private final CityService cityService;
 
     public List<TheaterPlay> getAll() {
-        return this.theaterPlayRepository.findAllByisActive(Boolean.TRUE);
+        return this.theaterPlayRepository.findAllByIsActive(Boolean.TRUE);
     }
 
     public TheaterPlay createTheaterPlay(TheaterPlayDto theaterPlayDto) {
@@ -33,13 +33,13 @@ public class TheaterPlayService {
     }
 
     public TheaterPlay getById(Integer id) {
-        return theaterPlayRepository.findByIdAndIsActive(id,Boolean.TRUE)
+        return theaterPlayRepository.findByIdTheaterPlayAndIsActive(id,Boolean.TRUE)
                 .orElseThrow(TheaterPlayNotFoundException::new);
     }
 
 
     public TheaterPlay updateTheaterPlay(Integer id, TheaterPlayDto theaterPlayDto) {
-        return this.theaterPlayRepository.findByIdAndIsActive(id, Boolean.TRUE)
+        return this.theaterPlayRepository.findByIdTheaterPlayAndIsActive(id, Boolean.TRUE)
                 .map(theaterPlay -> update(theaterPlay,theaterPlayDto))
                 .map(theaterPlayRepository::save)
                 .orElseThrow(TheaterPlayNotFoundException::new);
@@ -58,7 +58,7 @@ public class TheaterPlayService {
 
 
     public TheaterPlay logicDelete(Integer id) {
-        TheaterPlay theaterPlay = this.theaterPlayRepository.findByIdAndIsActive(id,Boolean.TRUE)
+        TheaterPlay theaterPlay = this.theaterPlayRepository.findByIdTheaterPlayAndIsActive(id,Boolean.TRUE)
                 .orElseThrow(TheaterPlayNotFoundException::new);
         theaterPlay.setIsActive(Boolean.FALSE);
         return this.theaterPlayRepository.save(theaterPlay);

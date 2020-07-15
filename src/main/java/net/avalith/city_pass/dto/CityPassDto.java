@@ -15,6 +15,8 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CityPassDto {
+    private Integer id;
+
     @NotBlank(message = "Invalid name")
     private String name;
 

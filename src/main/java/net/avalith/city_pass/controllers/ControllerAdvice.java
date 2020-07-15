@@ -1,10 +1,11 @@
 package net.avalith.city_pass.controllers;
 
-import net.avalith.city_pass.dto.ErrorResponseDto;
+import net.avalith.city_pass.dto.response.ErrorResponseDto;
 import net.avalith.city_pass.exceptions.BrokenConstraintException;
 import net.avalith.city_pass.exceptions.CityNotFoundException;
 import net.avalith.city_pass.exceptions.CityPassNotFoundException;
 import net.avalith.city_pass.exceptions.ExcursionNotFoundException;
+import net.avalith.city_pass.exceptions.PurchaseNotFoundException;
 import net.avalith.city_pass.exceptions.RoleNotFoundException;
 import net.avalith.city_pass.exceptions.TheaterPlayNotFoundException;
 import net.avalith.city_pass.exceptions.UserNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import static net.avalith.city_pass.utils.Constants.CITY_NOT_FOUND_MESSAGE;
 import static net.avalith.city_pass.utils.Constants.CITY_PASS_NOT_FOUND_MESSAGE;
 import static net.avalith.city_pass.utils.Constants.EXCURSION_NOT_FOUND_MESSAGE;
+import static net.avalith.city_pass.utils.Constants.PURCHASE_NOT_FOUND_MESSAGE;
 import static net.avalith.city_pass.utils.Constants.ROLE_NOT_FOUND_MESSAGE;
 import static net.avalith.city_pass.utils.Constants.THEATERPLAY_NOT_FOUND_MESSAGE;
 import static net.avalith.city_pass.utils.Constants.USER_NOT_FOUND_MESSAGE;
@@ -64,5 +66,11 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BrokenConstraintException.class)
     public ErrorResponseDto handleBrokenConstraintException(BrokenConstraintException exc) {
         return new ErrorResponseDto(2, exc.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(PurchaseNotFoundException.class)
+    public ErrorResponseDto handlePurchaseNotFoundException(PurchaseNotFoundException exc) {
+        return new ErrorResponseDto(1, PURCHASE_NOT_FOUND_MESSAGE);
     }
 }

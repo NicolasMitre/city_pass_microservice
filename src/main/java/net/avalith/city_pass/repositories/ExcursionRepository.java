@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface ExcursionRepository extends JpaRepository<Excursion,Integer> {
-    Optional<Excursion> findByIdAndIsActive(Integer idExcursion, Boolean value);
+    Optional<Excursion> findByIdExcursionAndIsActive(Integer idExcursion, Boolean value);
 
     Optional<Excursion> findByNameAndIsActive(String name, Boolean status);
 

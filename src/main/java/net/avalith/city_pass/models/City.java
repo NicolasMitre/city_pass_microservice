@@ -24,7 +24,7 @@ public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_city")
-    private Integer id;
+    private Integer idCity;
 
     @NotNull
     @Column(unique = true)

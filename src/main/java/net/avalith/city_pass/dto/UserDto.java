@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import net.avalith.city_pass.models.User;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +16,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    @NotNull
     private Integer id;
 
     @NotBlank(message = "username is mandatory")
@@ -29,7 +27,7 @@ public class UserDto {
     private List<String> roles;
 
     public UserDto (User user) {
-        this.id = user.getId();
+        this.id = user.getIdUser();
         this.username = user.getUsername();
         this.name =  user.getName();
         this.roles = user.getRoles().stream()

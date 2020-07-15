@@ -25,7 +25,7 @@ public class UserService {
     }
 
     public User getById(Integer id) {
-        return userRepository.findByIdAndIsActive(id,Boolean.TRUE)
+        return userRepository.findByIdUserAndIsActive(id,Boolean.TRUE)
                 .orElseThrow(UserNotFoundException::new);
     }
 
@@ -50,14 +50,14 @@ public class UserService {
 }
 
     public User updateUser(Integer idUser, UserDto userDto) {
-        return this.userRepository.findByIdAndIsActive(idUser, Boolean.TRUE)
+        return this.userRepository.findByIdUserAndIsActive(idUser, Boolean.TRUE)
                 .map(user -> update(user,userDto))
                         .map(user -> this.userRepository.save(user))
                         .orElseThrow(UserNotFoundException::new);
     }
 
     public User logicDelete(Integer id) {
-        User user= this.userRepository.findByIdAndIsActive(id,Boolean.TRUE)
+        User user= this.userRepository.findByIdUserAndIsActive(id,Boolean.TRUE)
                 .orElseThrow(UserNotFoundException::new);
         user.setIsActive(Boolean.FALSE);
         return userRepository.save(user);
