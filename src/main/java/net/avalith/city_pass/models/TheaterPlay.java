@@ -27,8 +27,6 @@ public class TheaterPlay {
     @Column(name = "id_theaterplay")
     private Integer idTheaterPlay;
 
-    private final Integer CAPACITY = 100;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_city")
     private City city;
