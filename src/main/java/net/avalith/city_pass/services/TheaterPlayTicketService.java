@@ -16,17 +16,14 @@ public class TheaterPlayTicketService {
 
     public void validate(Integer idTicketPlay, Integer quantityTicket) {
         Integer ticketSold = theaterPlayTicketRepository.sumTheaterPlayTicketById(idTicketPlay);
-        if (!quantityTicket.equals(0)) {
-            if (ticketSold.equals(Math.toIntExact(THEATERPLAY_CAPACITY))) {
-                throw new TheaterPlaySoldOutException();
-            } else {
-                if ((ticketSold + quantityTicket) > THEATERPLAY_CAPACITY) {
-                    Integer ticketLeft = Math.toIntExact(THEATERPLAY_CAPACITY - ticketSold);
-                    throw new TheaterPlayRemainingTicketException(ticketLeft);
-                }
-            }
+
+        if (ticketSold.equals(Math.toIntExact(THEATERPLAY_CAPACITY))) {
+            throw new TheaterPlaySoldOutException();
         } else {
-            throw new TheaterPlayTicketNotValid(quantityTicket);
+            if ((ticketSold + quantityTicket) > THEATERPLAY_CAPACITY) {
+                Integer ticketLeft = Math.toIntExact(THEATERPLAY_CAPACITY - ticketSold);
+                throw new TheaterPlayRemainingTicketException(ticketLeft);
+            }
         }
     }
 }
