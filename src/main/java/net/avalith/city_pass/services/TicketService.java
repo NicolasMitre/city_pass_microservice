@@ -4,15 +4,11 @@ import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.request.TicketRequestDto;
 import net.avalith.city_pass.models.Purchase;
 import net.avalith.city_pass.models.Ticket;
-import net.avalith.city_pass.models.enums.TicketType;
 import net.avalith.city_pass.models.factory.TicketFactory;
-import net.avalith.city_pass.repositories.TheaterPlayTicketRepository;
 import net.avalith.city_pass.repositories.TicketRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static net.avalith.city_pass.models.enums.TicketType.theaterplay;
 
 
 @Service
