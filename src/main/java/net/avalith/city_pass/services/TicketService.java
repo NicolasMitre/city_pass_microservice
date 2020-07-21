@@ -16,10 +16,22 @@ import java.util.List;
 public class TicketService {
     private final TicketFactory ticketFactory;
     private final TicketRepository ticketRepository;
+    private final TheaterPlayTicketService theaterPlayTicketService;
 
     public Ticket processTicket(TicketRequestDto ticketRequestDto, Purchase purchase) {
         Ticket productBought = ticketFactory.getTicket(ticketRequestDto, purchase);
-        return ticketRepository.save(productBought);
+
+        switch (productBought.getTicketType()) {
+            case theaterplay:
+                theaterPlayTicketService.validate(ticketRequestDto.getIdProduct(), ticketRequestDto.getQuantity());
+                productBought = ticketRepository.save(productBought);
+                break;
+            case excursion:
+            case citypass:
+                productBought = ticketRepository.save(productBought);
+                break;
+        }
+        return productBought;
     }
 
     public List<Ticket> getByPurchaseId(Integer idPurchase) {
