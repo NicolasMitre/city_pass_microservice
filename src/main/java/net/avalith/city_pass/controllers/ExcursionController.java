@@ -44,19 +44,18 @@ public class ExcursionController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ExcursionDto> createExcursion(@Valid @RequestBody ExcursionDto ExcursionDto) throws
+    public ResponseEntity<ExcursionDto> createExcursion(@Valid @RequestBody ExcursionDto excursionDto) throws
             ExcursionNameAlreadyUsedException {
-        Excursion excursion = excursionService.createExcursion(ExcursionDto);
+        Excursion excursion = excursionService.createExcursion(excursionDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(ExcursionDto.fromExcursion(excursion));
     }
 
     @PutMapping("/{idExcursion}")
     public ResponseEntity<ExcursionDto> updateExcursion(@PathVariable(name = "idExcursion") Integer idExcursion,
-                                                        @Valid @RequestBody ExcursionDto ExcursionDto) throws
+                                                        @Valid @RequestBody ExcursionDto excursionDto) throws
             ExcursionNotFoundException, ExcursionNameAlreadyUsedException {
 
-        ExcursionDto excursionDto = ExcursionDto.fromExcursion(excursionService.updateExcursion(idExcursion, ExcursionDto));
-        return ResponseEntity.ok(excursionDto);
+        return ResponseEntity.ok(ExcursionDto.fromExcursion(excursionService.updateExcursion(idExcursion, excursionDto)));
     }
 
     @DeleteMapping("/{idExcursion}")
