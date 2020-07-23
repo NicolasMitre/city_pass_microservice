@@ -9,11 +9,18 @@ import net.avalith.city_pass.exceptions.PurchaseNotFoundException;
 import net.avalith.city_pass.exceptions.RoleNotFoundException;
 import net.avalith.city_pass.exceptions.TheaterPlayNotFoundException;
 import net.avalith.city_pass.exceptions.UserNotFoundException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static net.avalith.city_pass.utils.Constants.CITY_NOT_FOUND_MESSAGE;
 import static net.avalith.city_pass.utils.Constants.CITY_PASS_NOT_FOUND_MESSAGE;
@@ -31,19 +38,19 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     public ErrorResponseDto handleCityNotFoundException(CityNotFoundException exc) {
         return new ErrorResponseDto(1, CITY_NOT_FOUND_MESSAGE);
     }
-  
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(RoleNotFoundException.class)
     public ErrorResponseDto handleRoleNotFoundException(RoleNotFoundException exc) {
         return new ErrorResponseDto(1, ROLE_NOT_FOUND_MESSAGE);
     }
-  
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(TheaterPlayNotFoundException.class)
     public ErrorResponseDto handleTheaterPlayNotFoundException(TheaterPlayNotFoundException exc) {
         return new ErrorResponseDto(1, THEATERPLAY_NOT_FOUND_MESSAGE);
     }
-  
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserNotFoundException.class)
     public ErrorResponseDto handleUserNotFoundException(UserNotFoundException exc) {
@@ -72,5 +79,17 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(PurchaseNotFoundException.class)
     public ErrorResponseDto handlePurchaseNotFoundException(PurchaseNotFoundException exc) {
         return new ErrorResponseDto(1, PURCHASE_NOT_FOUND_MESSAGE);
+    }
+
+    @Override
+    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
+                                                                  HttpStatus status, WebRequest request) {
+        List<String> errorList = ex
+                .getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(fieldError -> fieldError.getDefaultMessage())
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(errorList, HttpStatus.BAD_REQUEST);
     }
 }
