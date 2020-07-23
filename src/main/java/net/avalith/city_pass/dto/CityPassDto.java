@@ -1,11 +1,9 @@
 package net.avalith.city_pass.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.avalith.city_pass.models.City;
 import net.avalith.city_pass.models.CityPass;
 
 import javax.validation.constraints.Min;
