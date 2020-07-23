@@ -1,8 +1,8 @@
 package net.avalith.city_pass.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.request.PurchaseRequestDto;
-import net.avalith.city_pass.dto.request.TicketRequestDto;
 import net.avalith.city_pass.dto.response.ListPurchasesResponseDto;
 import net.avalith.city_pass.dto.response.PurchaseResponseDto;
 import net.avalith.city_pass.dto.response.TicketResponseDto;
@@ -11,6 +11,9 @@ import net.avalith.city_pass.exceptions.PurchaseNotFoundException;
 import net.avalith.city_pass.models.Purchase;
 import net.avalith.city_pass.models.Ticket;
 import net.avalith.city_pass.models.User;
+import net.avalith.city_pass.models.enums.PurchaseStatus;
+import net.avalith.city_pass.paypal.PayPalApi;
+import net.avalith.city_pass.paypal.models.Payment;
 import net.avalith.city_pass.repositories.PurchaseRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,30 +29,47 @@ public class PurchaseService {
     private final PurchaseRepository purchaseRepository;
     private final UserService userService;
     private final TicketResponseDtoFactory ticketResponseDtoFactory;
+    private final PayPalApi payPalApi;
 
     @Transactional
-    public Purchase processPurchase(PurchaseRequestDto purchaseDto) {
-        Purchase purchase = Purchase.builder()
-                .purchaseDate(purchaseDto.getPurchaseDate())
-                .user(userService.getById(purchaseDto.getUserId()))
-                .build();
+    public Payment processPurchase(PurchaseRequestDto purchaseDto) throws JsonProcessingException {
 
-        purchase = purchaseRepository.save(purchase);
-        List<Ticket> tickets = new ArrayList<>();
-
-        for (TicketRequestDto ticketRequestDto : purchaseDto.getProducts()) {
-            Ticket newTicket = ticketService.processTicket(ticketRequestDto, purchase);
-            tickets.add(newTicket);
-        }
-
-        Double totalPrice = tickets
+        List<Ticket> tickets = purchaseDto.getProducts()
                 .stream()
+                .map(ticketRequestDto -> ticketService.processTicket(ticketRequestDto, purchaseDto.getPurchaseDate()))
+                .collect(Collectors.toList());
+
+        Double totalPrice = tickets.stream()
                 .map(Ticket::getSubTotal)
                 .reduce(0d, Double::sum);
 
-        purchase.setTotalPrice(totalPrice);
-        purchase.setProductsBought(tickets);
+        Purchase purchasePersisted = purchaseRepository.save(Purchase.builder()
+                .status(PurchaseStatus.pending)
+                .user(userService.getById(purchaseDto.getUserId()))
+                .purchaseDate(purchaseDto.getPurchaseDate())
+                .productsBought(tickets)
+                .totalPrice(totalPrice)
+                .build());
 
+        tickets.forEach(ticket -> ticket.setPurchase(purchasePersisted));
+        ticketService.persistTicket(tickets);
+
+        return payPalApi.createPayment(purchasePersisted);
+    }
+
+    @Transactional
+    public String executePayment(Integer idPurchase, String paymentId, String payerId) throws JsonProcessingException {
+        String response = payPalApi.executePayment(paymentId, payerId);
+
+        Purchase purchase = findById(idPurchase);
+        purchase.setStatus(PurchaseStatus.completed);
+        persistPurchase(purchase);
+        purchase.getProductsBought().forEach(ticket -> ticket.setTicketStatus(PurchaseStatus.completed));
+        ticketService.persistTicket(purchase.getProductsBought());
+        return response;
+    }
+
+    private Purchase persistPurchase(Purchase purchase) {
         return purchaseRepository.save(purchase);
     }
 
@@ -80,4 +100,5 @@ public class PurchaseService {
 
         return ListPurchasesResponseDto.fromListPurchases(listPurchaseResponseDto);
     }
+
 }
