@@ -3,7 +3,6 @@ package net.avalith.city_pass.services;
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.exceptions.TheaterPlayRemainingTicketException;
 import net.avalith.city_pass.exceptions.TheaterPlaySoldOutException;
-import net.avalith.city_pass.exceptions.TheaterPlayTicketNotValid;
 import net.avalith.city_pass.repositories.TheaterPlayTicketRepository;
 import org.springframework.stereotype.Service;
 
