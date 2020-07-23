@@ -3,9 +3,11 @@ package net.avalith.city_pass.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import net.avalith.city_pass.models.enums.PurchaseStatus;
 import net.avalith.city_pass.models.enums.TicketType;
 
 import javax.persistence.Entity;
@@ -50,5 +52,11 @@ public abstract class Ticket {
 
     @NotNull
     private LocalDateTime purchasedDate;
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private PurchaseStatus ticketStatus = PurchaseStatus.pending;
+
+    public abstract String getName();
 }
 

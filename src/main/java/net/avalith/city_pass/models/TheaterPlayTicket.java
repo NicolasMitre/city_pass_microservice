@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import net.avalith.city_pass.models.enums.PurchaseStatus;
 import net.avalith.city_pass.models.enums.TicketType;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import java.time.LocalDateTime;
 
 @Data
 @SuperBuilder
@@ -31,7 +33,7 @@ public class TheaterPlayTicket extends Ticket{
     private String code;
 
     public static TheaterPlayTicket createTheaterPlayTicket(TicketType ticketType, TheaterPlay theaterPlay, Integer quantity,
-                                                            Double subTotal, String code, Purchase purchase) {
+                                                            Double subTotal, String code, LocalDateTime purchasedDate) {
         return TheaterPlayTicket.builder()
                 .ticketType(ticketType)
                 .theaterPlay(theaterPlay)
@@ -39,8 +41,13 @@ public class TheaterPlayTicket extends Ticket{
                 .quantity(quantity)
                 .subTotal(subTotal)
                 .code(code)
-                .purchasedDate(purchase.getPurchaseDate())
-                .purchase(purchase)
+                .purchasedDate(purchasedDate)
+                .ticketStatus(PurchaseStatus.pending)
                 .build();
+    }
+
+    @Override
+    public String getName() {
+        return theaterPlay.getName();
     }
 }
