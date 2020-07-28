@@ -43,7 +43,7 @@ public class CityPassTicket extends Ticket{
                 .subTotal(subtotal)
                 .code(code)
                 .purchasedDate(purchasedDate)
-                .ticketStatus(PurchaseStatus.pending)
+                .ticketStatus(PurchaseStatus.PENDING)
                 .build();
     }
 

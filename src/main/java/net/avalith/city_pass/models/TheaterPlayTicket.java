@@ -42,7 +42,7 @@ public class TheaterPlayTicket extends Ticket{
                 .subTotal(subTotal)
                 .code(code)
                 .purchasedDate(purchasedDate)
-                .ticketStatus(PurchaseStatus.pending)
+                .ticketStatus(PurchaseStatus.PENDING)
                 .build();
     }
 

@@ -55,7 +55,7 @@ public abstract class Ticket {
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    private PurchaseStatus ticketStatus = PurchaseStatus.pending;
+    private PurchaseStatus ticketStatus = PurchaseStatus.PENDING;
 
     public abstract String getName();
 }
