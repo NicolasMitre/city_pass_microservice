@@ -10,8 +10,8 @@ spring:
     password: ${pass}
 paypal:
   client:
-    id: "Ac_aXD8bX123a7f87xYFsG5-iCZHOChnvFI6bDZF3iZdHE0NbGEHzpOiodlFphEdr47ZSd4NgjQIGwmy"
-    secret : "EAb-C2aKfFqKQnaqCqZQXeoYowjvhKFCgfyHxahiOanVsz1jh3E3DX4X1g3qG-BCZEj_SqJ61RWCSeQL"
+    id: ${paypal.client.id}
+    secret : ${paypal.client.secret}
 
 client:
   successUrl: "http://localhost:8080/purchases/pay/success"
