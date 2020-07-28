@@ -2,6 +2,7 @@ package net.avalith.city_pass.services;
 
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.request.TicketRequestDto;
+import net.avalith.city_pass.models.TheaterPlayTicket;
 import net.avalith.city_pass.models.Ticket;
 import net.avalith.city_pass.models.factory.TicketFactory;
 import net.avalith.city_pass.repositories.TicketRepository;
@@ -23,18 +24,20 @@ public class TicketService {
     public Ticket processTicket(TicketRequestDto ticketRequestDto, LocalDateTime purchaseDate) {
         Ticket productBought = ticketFactory.getTicket(ticketRequestDto,purchaseDate);
 
-        switch (productBought.getTicketType()) {
+        return validate(productBought);
+    }
+
+    private Ticket validate(Ticket productToBuy){
+        switch (productToBuy.getTicketType()) {
             case theaterplay:
-                theaterPlayTicketService.validate(ticketRequestDto.getIdProduct(), ticketRequestDto.getQuantity());
-                productBought = ticketRepository.save(productBought);
+                theaterPlayTicketService.validate((TheaterPlayTicket) productToBuy);
                 break;
-            case excursion:
             case citypass:
-                productBought = ticketRepository.save(productBought);
+            case excursion:
                 break;
         }
 
-        return productBought;
+        return productToBuy;
     }
 
     public List<Ticket> persistTicket(@NotEmpty List<@Valid Ticket> tickets){
