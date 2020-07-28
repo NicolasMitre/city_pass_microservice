@@ -14,5 +14,6 @@ public class Constants {
     public static final String CITY_PASS_NAME_IS_ALREADY_USED = "The name for the city pass is already used";
     public static final String THEATERPLAY_NOT_FOUND_MESSAGE = "TheaterPlay not found";
     public static final String PURCHASE_NOT_FOUND_MESSAGE = "Purchase not found";
+    public static final String PAYPAL_API_ERROR_MESSAGE = "There has been a problem during the approval of the payment";
 
 }
