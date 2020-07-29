@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.models.Purchase;
 import net.avalith.city_pass.paypal.models.Amount;
@@ -53,6 +54,7 @@ public class PayPalApi {
     public Payment createPayment(Purchase purchase) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode paymentJsonNode = objectMapper.createObjectNode();
+        objectMapper.registerModule(new JavaTimeModule());
 
         Map<String, String> redirectUrls = new HashMap<>();
         redirectUrls.put("return_url", paypalConfig.getSuccessUrl() + "/" + purchase.getIdPurchase());
@@ -105,10 +107,14 @@ public class PayPalApi {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(getToken());
         HttpEntity<String> request = new HttpEntity<>(paymentJsonNode.toString(), headers);
-        //cachear excepciones de rest template client exception
-        ResponseEntity<Payment> response = restTemplate.exchange(paymentBaseUri, HttpMethod.POST, request, Payment.class);
-
-        return response.getBody();
+        Payment payment = null;
+        try {
+            ResponseEntity<String> responseJson = restTemplate.exchange(paymentBaseUri, HttpMethod.POST, request, String.class);
+            payment = objectMapper.readValue(responseJson.getBody(),Payment.class);
+        } catch (RestClientException ex){
+            throw new PayPalApiException(ex.getLocalizedMessage());
+        }
+        return payment;
     }
 
     public String executePayment(String paymentId, String payerId) throws JsonProcessingException {
@@ -127,7 +133,7 @@ public class PayPalApi {
         try{
             response = restTemplate.exchange(executePaymentUri, HttpMethod.POST, request, String.class);
         } catch (RestClientException ex){
-            throw new PayPalApiException();
+            throw new PayPalApiException(ex.getLocalizedMessage());
         }
         return response.toString();
     }

@@ -59,7 +59,7 @@ public class PurchaseController {
     @GetMapping(value = "/pay/failure/{idPurchase}")
     public ResponseEntity<String> failurePay(@PathVariable(name = "idPurchase") Integer idPurchase,
                                              @RequestParam("token") String token) {
-        //todo reintegrar items
-        return ResponseEntity.ok("F por tu compra");
+        purchaseService.cancelPurchase(idPurchase);
+        return ResponseEntity.ok("Thank you for your consideration!");
     }
 }

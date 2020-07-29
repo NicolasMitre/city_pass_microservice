@@ -44,7 +44,7 @@ public class PurchaseService {
                 .reduce(0d, Double::sum);
 
         Purchase purchasePersisted = purchaseRepository.save(Purchase.builder()
-                .status(PurchaseStatus.pending)
+                .status(PurchaseStatus.PENDING)
                 .user(userService.getById(purchaseDto.getUserId()))
                 .purchaseDate(purchaseDto.getPurchaseDate())
                 .productsBought(tickets)
@@ -62,11 +62,24 @@ public class PurchaseService {
         String response = payPalApi.executePayment(paymentId, payerId);
 
         Purchase purchase = findById(idPurchase);
-        purchase.setStatus(PurchaseStatus.completed);
+        purchase.setStatus(PurchaseStatus.COMPLETED);
         persistPurchase(purchase);
-        purchase.getProductsBought().forEach(ticket -> ticket.setTicketStatus(PurchaseStatus.completed));
+
+        List<Ticket> productsBought = purchase.getProductsBought();
+        productsBought.forEach(ticket -> ticket.setTicketStatus(PurchaseStatus.COMPLETED));
         ticketService.persistTicket(purchase.getProductsBought());
+
         return response;
+    }
+
+
+    @Transactional
+    public void cancelPurchase(Integer idPurchase) {
+        Purchase purchase = findById(idPurchase);
+        purchase.setStatus(PurchaseStatus.CANCELED);
+        persistPurchase(purchase);
+        purchase.getProductsBought().forEach(ticket -> ticket.setTicketStatus(PurchaseStatus.CANCELED));
+        ticketService.persistTicket(purchase.getProductsBought());
     }
 
     private Purchase persistPurchase(Purchase purchase) {
