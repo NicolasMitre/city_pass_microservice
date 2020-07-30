@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import net.avalith.city_pass.models.enums.PurchaseStatus;
 import net.avalith.city_pass.models.enums.TicketType;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Data
 @SuperBuilder
@@ -31,7 +33,7 @@ public class ExcursionTicket extends Ticket{
     private String code;
 
     public static ExcursionTicket createExcursionTicket(TicketType ticketType, Excursion excursion, Integer quantity,
-                                                        Double subTotal, String code, Purchase purchase) {
+                                                        Double subTotal, String code, LocalDateTime purchasedDate) {
         return ExcursionTicket.builder()
                 .ticketType(ticketType)
                 .excursion(excursion)
@@ -39,8 +41,13 @@ public class ExcursionTicket extends Ticket{
                 .quantity(quantity)
                 .subTotal(subTotal)
                 .code(code)
-                .purchasedDate(purchase.getPurchaseDate())
-                .purchase(purchase)
+                .purchasedDate(purchasedDate)
+                .ticketStatus(PurchaseStatus.PENDING)
                 .build();
+    }
+
+    @Override
+    public String getName() {
+        return excursion.getName();
     }
 }

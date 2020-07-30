@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TheaterPlayTicketRepository extends JpaRepository<TheaterPlayTicket,Integer> {
-    @Query("SELECT coalesce(sum(t.quantity),0) FROM TheaterPlayTicket t WHERE t.theaterPlay.idTheaterPlay = ?1")
+    @Query("SELECT coalesce(sum(t.quantity),0) FROM TheaterPlayTicket t WHERE t.theaterPlay.idTheaterPlay = ?1 AND" +
+            " t.ticketStatus <> 'DENIED'" )
     Integer  sumTheaterPlayTicketById(Integer idTheaterPlay);
 }

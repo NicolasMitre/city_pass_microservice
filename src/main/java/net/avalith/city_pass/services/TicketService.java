@@ -2,12 +2,15 @@ package net.avalith.city_pass.services;
 
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.request.TicketRequestDto;
-import net.avalith.city_pass.models.Purchase;
+import net.avalith.city_pass.models.TheaterPlayTicket;
 import net.avalith.city_pass.models.Ticket;
 import net.avalith.city_pass.models.factory.TicketFactory;
 import net.avalith.city_pass.repositories.TicketRepository;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -18,20 +21,27 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final TheaterPlayTicketService theaterPlayTicketService;
 
-    public Ticket processTicket(TicketRequestDto ticketRequestDto, Purchase purchase) {
-        Ticket productBought = ticketFactory.getTicket(ticketRequestDto, purchase);
+    public Ticket processTicket(TicketRequestDto ticketRequestDto, LocalDateTime purchaseDate) {
+        Ticket productBought = ticketFactory.getTicket(ticketRequestDto,purchaseDate);
 
-        switch (productBought.getTicketType()) {
+        return validate(productBought);
+    }
+
+    private Ticket validate(Ticket productToBuy){
+        switch (productToBuy.getTicketType()) {
             case theaterplay:
-                theaterPlayTicketService.validate(ticketRequestDto.getIdProduct(), ticketRequestDto.getQuantity());
-                productBought = ticketRepository.save(productBought);
+                theaterPlayTicketService.validate((TheaterPlayTicket) productToBuy);
                 break;
-            case excursion:
             case citypass:
-                productBought = ticketRepository.save(productBought);
+            case excursion:
                 break;
         }
-        return productBought;
+
+        return productToBuy;
+    }
+
+    public List<Ticket> persistTicket(@NotEmpty List<@Valid Ticket> tickets){
+        return ticketRepository.saveAll(tickets);
     }
 
     public List<Ticket> getByPurchaseId(Integer idPurchase) {

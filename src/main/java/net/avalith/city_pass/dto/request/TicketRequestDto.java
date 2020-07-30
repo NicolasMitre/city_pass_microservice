@@ -1,7 +1,6 @@
 package net.avalith.city_pass.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +22,6 @@ public class TicketRequestDto {
     @JsonBackReference
     private TicketType ticketType;
 
-    @Min(value = 1)
+    @Min(value = 1, message = "Quantity must be 1 or higher")
     private Integer quantity;
 }
