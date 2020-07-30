@@ -2,7 +2,7 @@ package net.avalith.city_pass.controllers;
 
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.TheaterPlayDto;
-import net.avalith.city_pass.dto.TheaterPlayListDto;
+import net.avalith.city_pass.dto.response.TheaterPlayListDto;
 import net.avalith.city_pass.models.TheaterPlay;
 import net.avalith.city_pass.services.TheaterPlayService;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 @RequiredArgsConstructor
 @RestController

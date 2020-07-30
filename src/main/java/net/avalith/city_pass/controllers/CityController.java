@@ -2,7 +2,7 @@ package net.avalith.city_pass.controllers;
 
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.CityDto;
-import net.avalith.city_pass.dto.ListCityDto;
+import net.avalith.city_pass.dto.response.ListCityDto;
 import net.avalith.city_pass.models.City;
 import net.avalith.city_pass.services.CityService;
 import org.springframework.http.HttpStatus;

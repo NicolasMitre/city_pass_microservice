@@ -13,6 +13,8 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CityPassDto {
+    private Integer id;
+
     @NotBlank(message = "Invalid name")
     private String name;
 
@@ -25,12 +27,16 @@ public class CityPassDto {
     @Min(value = 0)
     private Double price;
 
+    @NotBlank
+    private String cityName;
+
     public static CityPassDto fromCityPass(CityPass cityPass){
         return CityPassDto.builder()
                 .name(cityPass.getName())
                 .description(cityPass.getDescription())
                 .days(cityPass.getDays())
                 .price(cityPass.getPrice())
+                .cityName(cityPass.getCity().getName())
                 .build();
         }
 }

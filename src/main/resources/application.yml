@@ -5,6 +5,14 @@ spring:
       ddl-auto: update
       format_sql: true
   datasource:
-    url: jdbc:mysql://localhost:3306/city_pass_db?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/city_pass_db?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=America/Argentina/Buenos_Aires
     username: ${user}
     password: ${pass}
+paypal:
+  client:
+    id: ${paypal.client.id}
+    secret : ${paypal.client.secret}
+
+client:
+  successUrl: "http://localhost:8080/purchases/pay/success"
+  failureUrl: "http://localhost:8080/purchases/pay/failure"

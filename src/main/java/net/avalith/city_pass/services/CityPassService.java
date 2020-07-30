@@ -2,9 +2,12 @@ package net.avalith.city_pass.services;
 
 import lombok.RequiredArgsConstructor;
 import net.avalith.city_pass.dto.CityPassDto;
+import net.avalith.city_pass.exceptions.CityPassNameIsAlreadyUsedException;
 import net.avalith.city_pass.exceptions.CityPassNotFoundException;
+import net.avalith.city_pass.models.City;
 import net.avalith.city_pass.models.CityPass;
 import net.avalith.city_pass.repositories.CityPassRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
 public class CityPassService {
 
     private final CityPassRepository cityPassRepository;
+    private final CityService cityService;
 
     public List<CityPass> getAllCityPasses() {
         return cityPassRepository.findAllByIsActive(true);
@@ -25,34 +29,44 @@ public class CityPassService {
                 .description(cityPassDto.getDescription())
                 .days(cityPassDto.getDays())
                 .price(cityPassDto.getPrice())
+                .city(cityService.getByName(cityPassDto.getCityName()))
                 .build();
-        return cityPassRepository.save(cityPass);
+
+        try {
+            cityPass = cityPassRepository.save(cityPass);
+        } catch (DataIntegrityViolationException e) {
+            throw new CityPassNameIsAlreadyUsedException();
+        }
+
+        return cityPass;
     }
 
     public CityPass getById(Integer idCityPass) {
-        return cityPassRepository.findByIdAndIsActive(idCityPass, true)
+        return cityPassRepository.findByIdCityPassAndIsActive(idCityPass, true)
                 .orElseThrow(CityPassNotFoundException::new);
     }
 
     public CityPass updateCityPass(Integer idCityPass, CityPassDto cityPassDto) {
-        return cityPassRepository.findByIdAndIsActive(idCityPass, Boolean.TRUE)
-                .map(cityPass -> update(cityPass, cityPassDto))
-                .map(cityPassRepository::save)
-                .orElseThrow(CityPassNotFoundException::new);
-    }
+        City city = cityService.getByName(cityPassDto.getCityName());
 
-    private CityPass update(CityPass cityPass, CityPassDto cityPassDto){
-        cityPass.setName(cityPassDto.getName());
-        cityPass.setDescription(cityPassDto.getDescription());
-        cityPass.setPrice(cityPassDto.getPrice());
-        cityPass.setDays(cityPassDto.getDays());
+        CityPass cityPass = cityPassRepository.findByIdCityPassAndIsActive(idCityPass, Boolean.TRUE)
+                .orElseThrow(CityPassNotFoundException::new);
+
+        try {
+            cityPass = cityPass.update(cityPassDto, city);
+            cityPass = cityPassRepository.save(cityPass);
+        } catch (DataIntegrityViolationException e) {
+            throw new CityPassNameIsAlreadyUsedException();
+        }
+
         return cityPass;
     }
 
     public CityPass deleteCityPass(Integer idCityPass) {
-        CityPass cityPass = cityPassRepository.findByIdAndIsActive(idCityPass, true)
+        CityPass cityPass = cityPassRepository.findByIdCityPassAndIsActive(idCityPass, true)
                 .orElseThrow(CityPassNotFoundException::new);
         cityPass.setIsActive(Boolean.FALSE);
+
         return cityPassRepository.save(cityPass);
     }
 }

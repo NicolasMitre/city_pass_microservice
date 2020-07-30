@@ -1,42 +1,54 @@
 package net.avalith.city_pass.models;
 
-import com.sun.istack.NotNull;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import net.avalith.city_pass.models.enums.PurchaseStatus;
+import net.avalith.city_pass.models.enums.TicketType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Data
 @SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper=true)
-@Table(uniqueConstraints =
-        @UniqueConstraint(columnNames = {"product_id"}))
+@PrimaryKeyJoinColumn(name="id_ticket")
 public class CityPassTicket extends Ticket{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
-    private Integer id;
+    @ManyToOne
+    @JoinColumn(name = "id_city_pass")
+    private CityPass cityPass;
 
     @NotNull
     @Column(unique = true)
     private String code;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    public static CityPassTicket createCityPassTicket(TicketType ticketType,CityPass cityPass, Integer quantity,
+                                                      Double subtotal,String code, LocalDateTime purchasedDate){
+        return CityPassTicket.builder()
+                .ticketType(ticketType)
+                .cityPass(cityPass)
+                .unitPrice(cityPass.getPrice())
+                .quantity(quantity)
+                .subTotal(subtotal)
+                .code(code)
+                .purchasedDate(purchasedDate)
+                .ticketStatus(PurchaseStatus.PENDING)
+                .build();
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "city_pass_id")
-    private CityPass cityPass;
-
+    @Override
+    public String getName() {
+        return cityPass.getName();
+    }
 }

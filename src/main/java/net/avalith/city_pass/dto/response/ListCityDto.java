@@ -1,9 +1,10 @@
-package net.avalith.city_pass.dto;
+package net.avalith.city_pass.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.avalith.city_pass.dto.CityDto;
 import net.avalith.city_pass.models.City;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class ListCityDto {
     public static ListCityDto fromCityList(List<City> cityList){
         return ListCityDto.builder()
                 .cities(cityList.stream()
-                        .map(CityDto::fromCity)
-                        .collect(Collectors.toList()))
+                .map(CityDto::fromCity)
+                .collect(Collectors.toList()))
                 .build();
     }
 }

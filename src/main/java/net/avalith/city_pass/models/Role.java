@@ -21,8 +21,8 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "roles")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AutoIncremental
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idRole;
 
     @NotBlank
     @Column(unique = true)

@@ -28,7 +28,7 @@ public class CityService {
     }
 
     public City getById(Integer idCity){
-        return cityRepository.findByIdAndIsActive(idCity,Boolean.TRUE)
+        return cityRepository.findByIdCityAndIsActive(idCity,Boolean.TRUE)
                 .orElseThrow(CityNotFoundException::new);
     }
 
@@ -38,7 +38,7 @@ public class CityService {
     }
 
     public City updateCity(Integer idCity, CityDto cityDto) {
-        return cityRepository.findByIdAndIsActive(idCity,Boolean.TRUE)
+        return cityRepository.findByIdCityAndIsActive(idCity,Boolean.TRUE)
                 .map(city -> update(city, cityDto))
                 .map(city -> cityRepository.save(city))
                 .orElseThrow(CityNotFoundException::new);
@@ -50,7 +50,7 @@ public class CityService {
     }
 
     public City deleteCity(Integer idCity) {
-        City city = cityRepository.findByIdAndIsActive(idCity, Boolean.TRUE)
+        City city = cityRepository.findByIdCityAndIsActive(idCity, Boolean.TRUE)
                 .orElseThrow(CityNotFoundException::new);
 
         city.setIsActive(Boolean.FALSE);

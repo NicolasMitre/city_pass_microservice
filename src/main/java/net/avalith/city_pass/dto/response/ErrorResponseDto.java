@@ -1,4 +1,4 @@
-package net.avalith.city_pass.dto;
+package net.avalith.city_pass.dto.response;
 
 
 import lombok.AllArgsConstructor;
@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ErrorResponseDto {
-    int code;
     String description;
 }

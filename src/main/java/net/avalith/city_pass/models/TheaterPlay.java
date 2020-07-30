@@ -25,12 +25,10 @@ public class TheaterPlay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_theaterplay")
-    private Integer id;
-
-    private final Integer CAPACITY = 100;
+    private Integer idTheaterPlay;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cities_id")
+    @JoinColumn(name = "id_city")
     private City city;
 
     @NotNull
