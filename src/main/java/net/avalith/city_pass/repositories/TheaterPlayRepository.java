@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TheaterPlayRepository extends JpaRepository<TheaterPlay, Integer> {
-    @Query(value ="SELECT * FROM theater_play t inner join cities c on c.id_city = t.cities_id WHERE t.is_active = ?2 AND c.name =?1 ",nativeQuery = true)
+    @Query(value = "Select t from TheaterPlay t where t.city.name = ?1 and is_active = ?2")
     List<TheaterPlay> findByCityNameAndIsActive(String cityName,Boolean value);
 
     Optional<TheaterPlay> findByIdTheaterPlayAndIsActive(Integer id, Boolean b);
