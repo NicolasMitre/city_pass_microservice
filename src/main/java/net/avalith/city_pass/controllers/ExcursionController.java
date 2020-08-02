@@ -24,7 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-@Api(tags = "Excursion" , description = "Excursion CRUD")
+
+@Api(tags = "Excursion", description = "Excursion CRUD")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/excursion")
@@ -35,9 +36,9 @@ public class ExcursionController {
             @ApiResponse(code = 200, message = "Return a List of All Excursions of a City"),
             @ApiResponse(code = 204, message = "No Excursions Where Found in that City")})
     @GetMapping("")
-    public ResponseEntity<ListExcursionDto> getExcursions(@RequestParam(required = false, name = "cityName")String cityName,
-                                                          @RequestParam(required = false,name = "name") String excursionName) {
-        List<Excursion> list = excursionService.getAllExcursions(cityName,excursionName);
+    public ResponseEntity<ListExcursionDto> getExcursions(@RequestParam(required = false, name = "cityName") String cityName,
+                                                          @RequestParam(required = false, name = "name") String excursionName) {
+        List<Excursion> list = excursionService.getAllExcursions(cityName, excursionName);
         return (list.size() > 0) ? ResponseEntity.ok(ListExcursionDto.fromExcursionsList(list))
                 : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -54,8 +55,7 @@ public class ExcursionController {
             @ApiResponse(code = 200, message = "Succes on Create a Excursion"),
             @ApiResponse(code = 201, message = "Create a Excursion Successfully")})
     @PostMapping("")
-    public ResponseEntity<ExcursionDto> createExcursion(@Valid @RequestBody ExcursionDto excursionDto) throws
-            ExcursionNameAlreadyUsedException {
+    public ResponseEntity<ExcursionDto> createExcursion(@Valid @RequestBody ExcursionDto excursionDto) throws ExcursionNameAlreadyUsedException {
         Excursion excursion = excursionService.createExcursion(excursionDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(ExcursionDto.fromExcursion(excursion));
     }

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.avalith.city_pass.models.Purchase;
 import net.avalith.city_pass.paypal.models.Amount;
 import net.avalith.city_pass.paypal.models.Item;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class PayPalApi {
 
     private final PayPalConfig paypalConfig;
@@ -43,8 +45,15 @@ public class PayPalApi {
     private String getToken() throws JsonProcessingException {
         HttpHeaders basicAuth = new HttpHeaders();
         basicAuth.setBasicAuth(paypalConfig.getClientId(), paypalConfig.getClientSecret());
-        ResponseEntity<String> response = restTemplate.exchange
-                (getTokenUri, HttpMethod.POST, new HttpEntity<>(basicAuth), String.class);
+        ResponseEntity<String> response = null;
+        try{
+            response = restTemplate.exchange
+                    (getTokenUri, HttpMethod.POST, new HttpEntity<>(basicAuth), String.class);
+        } catch (RestClientException ex) {
+            log.error("Something went wrong in attempting to retrieve the access token");
+            log.error(ex.getMessage());
+            throw new PayPalApiException(ex.getMessage());
+        }
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(response.getBody());
@@ -112,6 +121,8 @@ public class PayPalApi {
             ResponseEntity<String> responseJson = restTemplate.exchange(paymentBaseUri, HttpMethod.POST, request, String.class);
             payment = objectMapper.readValue(responseJson.getBody(),Payment.class);
         } catch (RestClientException ex){
+            log.error("Failed when sending the request to create the payment");
+            log.error(ex.getMessage());
             throw new PayPalApiException(ex.getLocalizedMessage());
         }
         return payment;
@@ -133,6 +144,8 @@ public class PayPalApi {
         try{
             response = restTemplate.exchange(executePaymentUri, HttpMethod.POST, request, String.class);
         } catch (RestClientException ex){
+            log.error("Failed when sending the request to execute/complete the payment");
+            log.error(ex.getMessage());
             throw new PayPalApiException(ex.getLocalizedMessage());
         }
         return response.toString();
